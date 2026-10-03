@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fortyron – Zakládací dokument značky</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        'fort-dark': '#0D1B2A',
+        'fort-mid': '#1A3A5C',
+        'fort-silver': '#C0C0C0',
+        'fort-blue': '#2E86DE',
+        'fort-black': '#111111',
+        'fort-light': '#F4F6F9',
+      }
+    }
+  }
+};
+</script>
+<script src="https://unpkg.com/lucide@latest" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --fort-dark: #0D1B2A;
+  --fort-mid: #1A3A5C;
+  --fort-silver: #C0C0C0;
+  --fort-blue: #2E86DE;
+  --fort-black: #111111;
+  --fort-light: #F4F6F9;
+  --white: #FFFFFF;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--fort-black);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NAVBAR ─────────────────────── */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: var(--fort-dark);
+  height: 56px;
+  display: flex; align-items: center;
+  padding: 0 24px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+}
+.navbar-logo {
+  font-weight: 800; font-size: 1.15rem; color: #fff;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  margin-right: auto; white-space: nowrap;
+}
+.navbar-links { display: flex; gap: 6px; align-items: center; }
+.navbar-links a {
+  color: rgba(255,255,255,0.75); font-size: 0.72rem; text-decoration: none;
+  text-transform: uppercase; letter-spacing: 0.08em; padding: 6px 8px;
+  border-radius: 4px; transition: all 0.2s; font-weight: 500; white-space: nowrap;
+}
+.navbar-links a:hover, .navbar-links a.active {
+  color: #fff; background: rgba(255,255,255,0.1);
+}
+.print-btn {
+  background: var(--fort-blue); color: #fff; border: none;
+  padding: 7px 16px; border-radius: 6px; font-size: 0.78rem;
+  font-weight: 600; cursor: pointer; margin-left: 10px;
+  transition: background 0.2s; white-space: nowrap;
+}
+.print-btn:hover { background: #1a6fbd; }
+
+/* Mobile menu */
+.mobile-menu-btn { display: none; background: none; border: none; color: #fff; cursor: pointer; padding: 6px; }
+.mobile-menu {
+  display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--fort-dark); z-index: 2000;
+  flex-direction: column; padding: 20px; overflow-y: auto;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  color: rgba(255,255,255,0.85); font-size: 1rem; text-decoration: none;
+  padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+  text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500;
+}
+.mobile-menu a:hover { color: var(--fort-blue); }
+.mobile-menu-close {
+  align-self: flex-end; background: none; border: none; color: #fff;
+  cursor: pointer; padding: 6px; margin-bottom: 16px;
+}
+
+@media (max-width: 1023px) {
+  .navbar-links { display: none; }
+  .print-btn-desktop { display: none; }
+  .mobile-menu-btn { display: block; }
+}
+
+/* ── SECTION HEADERS ────────────── */
+.section-bar {
+  background: var(--fort-dark); color: #fff;
+  padding: 16px 32px; font-size: 0.85rem;
+  font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.15em; margin-bottom: 0;
+}
+
+/* ── COVER ──────────────────────── */
+.cover {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--fort-dark); position: relative; overflow: hidden;
+  padding: 80px 24px 40px;
+}
+.cover::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px),
+    repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px);
+  pointer-events: none;
+}
+.cover-title {
+  font-size: clamp(2.8rem, 8vw, 5rem); font-weight: 900; color: #fff;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  margin-top: 32px; text-align: center; position: relative;
+}
+.cover-subtitle {
+  color: var(--fort-silver); font-size: clamp(0.75rem, 2vw, 1.2rem);
+  letter-spacing: 0.5em; text-transform: uppercase; font-weight: 500;
+  margin-top: 8px; text-align: center; position: relative;
+}
+.cover-divider {
+  width: 200px; height: 1px; background: var(--fort-silver);
+  margin: 28px auto; opacity: 0.6; position: relative;
+}
+.cover-tagline {
+  color: var(--fort-blue); font-style: italic; font-size: clamp(1rem, 2.5vw, 1.3rem);
+  font-weight: 500; text-align: center; position: relative;
+}
+.cover-badges { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; justify-content: center; position: relative; }
+.cover-badge {
+  border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.75);
+  padding: 6px 18px; border-radius: 20px; font-size: 0.78rem;
+  font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+}
+.cover-url {
+  color: var(--fort-silver); font-size: 0.8rem; letter-spacing: 0.15em;
+  font-variant: small-caps; margin-top: auto; padding-top: 40px; position: relative;
+}
+
+/* ── CARDS ──────────────────────── */
+.value-card {
+  background: #fff; border-radius: 10px; padding: 28px 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-top: 4px solid var(--fort-blue);
+  position: relative; overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.value-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+.value-card .card-number {
+  position: absolute; top: -6px; right: 12px;
+  font-size: 4.5rem; font-weight: 900; color: rgba(0,0,0,0.04);
+  line-height: 1; pointer-events: none;
+}
+
+.problem-card {
+  background: var(--fort-light); border-radius: 10px; padding: 22px 20px;
+  border-top: 3px solid var(--fort-blue);
+  transition: transform 0.25s; flex: 1; min-width: 220px;
+}
+.problem-card:hover { transform: translateY(-3px); }
+
+.product-card {
+  background: #fff; border-radius: 10px; padding: 24px 20px;
+  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+.product-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+.persona-card {
+  background: #fff; border-radius: 12px; padding: 28px 24px;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.07);
+  border: 1px solid rgba(0,0,0,0.06);
+  transition: transform 0.25s;
+}
+.persona-card:hover { transform: translateY(-4px); }
+
+.legal-card {
+  background: #fff; border-radius: 10px; padding: 28px 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-left: 4px solid var(--fort-blue);
+  transition: transform 0.25s;
+}
+.legal-card:hover { transform: translateY(-3px); }
+
+/* ── TIMELINE ───────────────────── */
+.timeline { display: flex; align-items: flex-start; gap: 0; position: relative; }
+.timeline::before {
+  content: ''; position: absolute;
+  top: 24px; left: 24px; right: 24px;
+  height: 3px; background: linear-gradient(90deg, var(--fort-dark), var(--fort-mid), var(--fort-blue));
+}
+.timeline-item { flex: 1; text-align: center; position: relative; padding-top: 48px; }
+.timeline-node {
+  width: 48px; height: 48px; border-radius: 50%;
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 800; font-size: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* ── FADE IN ANIMATION ──────────── */
+.fade-section {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-section.visible {
+  opacity: 1; transform: translateY(0);
+}
+
+/* ── COLOR SWATCHES ─────────────── */
+.swatch {
+  border-radius: 10px; overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.swatch-block { height: 80px; }
+.swatch-label {
+  padding: 10px 14px; font-size: 0.78rem;
+  background: #fff;
+}
+
+/* ── KPI TABLE ──────────────────── */
+.kpi-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.kpi-table thead th {
+  background: var(--fort-dark); color: #fff;
+  padding: 12px 16px; text-align: left;
+  font-weight: 600; font-size: 0.8rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.kpi-table tbody td {
+  padding: 11px 16px; border-bottom: 1px solid #e5e7eb;
+}
+.kpi-table tbody tr:hover { background: var(--fort-light); }
+
+/* ── PRINT ──────────────────────── */
+@media print {
+  @page { size: A4 portrait; margin: 15mm; }
+
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  body { font-size: 11pt; line-height: 1.6; }
+
+  .navbar, .mobile-menu-btn, .mobile-menu, .print-btn, .no-print { display: none !important; }
+
+  .cover { min-height: auto; padding: 60px 20px 50px; page-break-after: always; }
+  .cover::before { display: block; }
+
+  .print-page-break { page-break-before: always; }
+
+  .fade-section { opacity: 1 !important; transform: none !important; }
+
+  .value-card:hover, .product-card:hover, .persona-card:hover, .legal-card:hover, .problem-card:hover {
+    transform: none; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .section-bar { padding: 12px 24px; }
+
+  h1, h2, h3 { page-break-after: avoid; }
+  .value-card, .product-card, .persona-card, .legal-card { page-break-inside: avoid; }
+
+  .cover-title { font-size: 3.2rem; }
+}
+
+/* ── TAGS ────────────────────────── */
+.tag {
+  display: inline-block; padding: 3px 10px; border-radius: 12px;
+  font-size: 0.72rem; font-weight: 500;
+  background: rgba(46,134,222,0.1); color: var(--fort-blue);
+  margin: 2px 2px;
+}
+</style>
+</head>
+<body data-id="0">
+<app-icon data-id="1" hidden data-icon="shield" data-palette="Dark"></app-icon>
+
+<!-- ═══════ NAVBAR ═══════ -->
+<nav data-id="2" class="navbar no-print" id="navbar-main-f9x2">
+  <div data-id="3" class="navbar-logo">FORTYRON</div>
+  <div data-id="4" class="navbar-links" id="nav-links-k3m7">
+    <a data-id="5" href="#profil">Profil</a>
+    <a data-id="6" href="#hodnoty">Hodnoty</a>
+    <a data-id="7" href="#cilova-skupina">Cílová skupina</a>
+    <a data-id="8" href="#produkty">Produkty</a>
+    <a data-id="9" href="#vizual">Vizuál</a>
+    <a data-id="10" href="#komunikace">Komunikace</a>
+    <a data-id="11" href="#strategie">Strategie</a>
+    <a data-id="12" href="#pravni">Právní</a>
+  </div>
+  <button data-id="13" class="print-btn print-btn-desktop" id="print-btn-d8k1">📄 Tisk / Export PDF</button>
+  <button data-id="14" class="mobile-menu-btn" id="mobile-menu-btn-a2v5">
+    <i data-id="15" data-lucide="menu" class="w-6 h-6"></i>
+  </button>
+</nav>
+
+<!-- Mobile menu -->
+<div data-id="16" class="mobile-menu" id="mobile-menu-r7q3">
+  <button data-id="17" class="mobile-menu-close" id="mobile-menu-close-j4t8">
+    <i data-id="18" data-lucide="x" class="w-7 h-7"></i>
+  </button>
+  <a data-id="19" href="#profil" class="mobile-nav-link">Profil</a>
+  <a data-id="20" href="#hodnoty" class="mobile-nav-link">Hodnoty</a>
+  <a data-id="21" href="#cilova-skupina" class="mobile-nav-link">Cílová skupina</a>
+  <a data-id="22" href="#produkty" class="mobile-nav-link">Produkty</a>
+  <a data-id="23" href="#vizual" class="mobile-nav-link">Vizuál</a>
+  <a data-id="24" href="#komunikace" class="mobile-nav-link">Komunikace</a>
+  <a data-id="25" href="#strategie" class="mobile-nav-link">Strategie</a>
+  <a data-id="26" href="#pravni" class="mobile-nav-link">Právní</a>
+  <button data-id="27" class="print-btn mt-6" id="print-btn-mob-e3w9" style="align-self:flex-start;">📄 Tisk / Export PDF</button>
+</div>
+
+<main data-id="28">
+
+<!-- ═══════ COVER PAGE ═══════ -->
+<section data-id="29" class="cover" id="cover-z1b4">
+  <!-- Shield SVG -->
+  <svg data-id="30" width="120" height="140" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:relative;" aria-label="Fortyron shield icon">
+    <defs data-id="31">
+      <linearGradient data-id="32" id="shieldGrad" x1="0" y1="0" x2="120" y2="140" gradientUnits="userSpaceOnUse">
+        <stop data-id="33" offset="0%" stop-color="#C0C0C0"/>
+        <stop data-id="34" offset="50%" stop-color="#2E86DE"/>
+        <stop data-id="35" offset="100%" stop-color="#C0C0C0"/>
+      </linearGradient>
+    </defs>
+    <path data-id="36" d="M60 4 L110 28 C110 28 114 80 60 132 C6 80 10 28 10 28 Z" stroke="url(#shieldGrad)" stroke-width="3" fill="none"/>
+    <path data-id="37" d="M60 16 L100 36 C100 36 103 78 60 122 C17 78 20 36 20 36 Z" fill="rgba(46,134,222,0.08)" stroke="none"/>
+    <!-- Lock icon inside -->
+    <rect data-id="38" x="44" y="56" width="32" height="26" rx="4" stroke="url(#shieldGrad)" stroke-width="2.5" fill="rgba(46,134,222,0.12)"/>
+    <path data-id="39" d="M48 56 V48 C48 40 52 34 60 34 C68 34 72 40 72 48 V56" stroke="url(#shieldGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <circle data-id="40" cx="60" cy="67" r="3.5" fill="#C0C0C0"/>
+    <line data-id="41" x1="60" y1="70.5" x2="60" y2="76" stroke="#C0C0C0" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
+
+  <h1 data-id="42" class="cover-title" id="cover-title-m4n2">FORTYRON</h1>
+  <p data-id="43" class="cover-subtitle" id="cover-sub-p8w1">Security &amp; Tech</p>
+  <div data-id="44" class="cover-divider"></div>
+  <p data-id="45" class="cover-tagline" id="cover-tag-q7r3">„Bezpečí začíná u Fortyronu."</p>
+
+  <div data-id="46" class="cover-badges">
+    <span data-id="47" class="cover-badge">Zakládací dokument značky</span>
+    <span data-id="48" class="cover-badge">Září 2026</span>
+  </div>
+
+  <p data-id="49" class="cover-url">fortyron.cz</p>
+</section>
+
+<!-- ═══════ 01 — PROFIL ZNAČKY ═══════ -->
+<section data-id="50" id="profil" class="fade-section print-page-break">
+  <div data-id="51" class="section-bar" id="secbar-profil-a1b2">01 — PROFIL ZNAČKY</div>
+
+  <div data-id="52" class="max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-16">
+    <div data-id="53" class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <!-- LEFT -->
+      <div data-id="54" id="profil-left-c3d4">
+        <h3 data-id="55" class="text-xs uppercase tracking-widest text-fort-silver font-semibold mb-4">Název a původ</h3>
+        <div data-id="56" class="flex items-baseline gap-1 mb-4">
+          <span data-id="57" class="text-4xl font-black text-fort-dark tracking-wider">FORT</span>
+          <span data-id="58" class="text-4xl font-black tracking-wider" style="color:var(--fort-blue);">Y</span>
+          <span data-id="59" class="text-4xl font-black tracking-wider" style="color:var(--fort-silver);">RON</span>
+        </div>
+        <div data-id="60" class="flex flex-wrap gap-3 mb-5 text-sm">
+          <span data-id="61" class="bg-fort-dark text-white px-3 py-1 rounded font-semibold tracking-wide">FORT</span>
+          <span data-id="62" class="text-fort-mid">=</span>
+          <span data-id="63" class="text-fort-mid font-medium">pevnost, ochrana</span>
+          <span data-id="64" class="text-fort-silver mx-1">+</span>
+          <span data-id="65" class="bg-gray-100 text-fort-mid px-3 py-1 rounded font-semibold tracking-wide">IRON</span>
+          <span data-id="66" class="text-fort-mid">=</span>
+          <span data-id="67" class="text-fort-mid font-medium">síla, technologie</span>
+        </div>
+        <p data-id="68" class="text-fort-mid leading-relaxed mb-4">
+          Značka symbolizuje <strong data-id="69">pevnost, odolnost a technickou jistotu</strong>. Název Fortyron evokuje nedobytnou fortalici postavenou z nejpevnějšího materiálu — přesně to, co zákazník od bezpečnostní značky očekává.
+        </p>
+        <p data-id="70" class="text-sm text-gray-500 italic">
+          Používá se samostatně nebo s podtitulkem „Security & Tech".
+        </p>
+      </div>
+
+      <!-- RIGHT -->
+      <div data-id="71" id="profil-right-e5f6">
+        <div data-id="72" class="border-l-4 border-fort-dark bg-white rounded-r-lg p-6 shadow-sm">
+          <h3 data-id="73" class="text-xs uppercase tracking-widest text-fort-silver font-semibold mb-5">Mise a Vize</h3>
+          <div data-id="74" class="mb-5">
+            <div data-id="75" class="flex items-center gap-2 mb-2">
+              <span data-id="76" class="w-8 h-8 rounded-full bg-fort-dark flex items-center justify-center">
+                <i data-id="77" data-lucide="target" class="w-4 h-4 text-white"></i>
+              </span>
+              <h4 data-id="78" class="font-bold text-fort-dark text-sm uppercase tracking-wider">Mise</h4>
+            </div>
+            <p data-id="79" class="text-fort-mid text-sm leading-relaxed">Pomáhat lidem zabezpečit domov, firmu i techniku pomocí chytrých systémů. Zjednodušit výběr a instalaci bezpečnostních řešení.</p>
+          </div>
+          <div data-id="80">
+            <div data-id="81" class="flex items-center gap-2 mb-2">
+              <span data-id="82" class="w-8 h-8 rounded-full bg-fort-blue flex items-center justify-center">
+                <i data-id="83" data-lucide="eye" class="w-4 h-4 text-white"></i>
+              </span>
+              <h4 data-id="84" class="font-bold text-fort-blue text-sm uppercase tracking-wider">Vize</h4>
+            </div>
+            <p data-id="85" class="text-fort-mid text-sm leading-relaxed">Stát se přední českou značkou pro bezpečnostní technologie, důvěryhodnou jak pro domácnosti, tak pro firmy.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problem Cards -->
+    <h3 data-id="86" class="text-xs uppercase tracking-widest text-fort-silver font-semibold mt-14 mb-6 text-center">Problémy, které řešíme</h3>
+    <div data-id="87" class="flex flex-col md:flex-row gap-5" id="problems-g7h8">
+      <div data-id="88" class="problem-card">
+        <div data-id="89" class="text-2xl mb-2">🔓</div>
+        <h4 data-id="90" class="font-bold text-fort-dark text-sm mb-2">Nedostatečná ochrana</h4>
+        <p data-id="91" class="text-sm text-fort-mid">Domácnosti a firmy často spoléhají na zastaralé nebo žádné zabezpečení.</p>
+      </div>
+      <div data-id="92" class="problem-card">
+        <div data-id="93" class="text-2xl mb-2">📊</div>
+        <h4 data-id="94" class="font-bold text-fort-dark text-sm mb-2">Nepřehledný trh</h4>
+        <p data-id="95" class="text-sm text-fort-mid">Zákazníci se ztrácejí v nepřehledné nabídce bezpečnostních technologií.</p>
+      </div>
+      <div data-id="96" class="problem-card">
+        <div data-id="97" class="text-2xl mb-2">⚙️</div>
+        <h4 data-id="98" class="font-bold text-fort-dark text-sm mb-2">Složitost výběru</h4>
+        <p data-id="99" class="text-sm text-fort-mid">Výběr a instalace bezpečnostních systémů je pro běžného uživatele příliš komplikovaná.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ 02 — HODNOTY ZNAČKY ═══════ -->
+<section data-id="100" id="hodnoty" class="fade-section print-page-break" style="background:var(--fort-light);">
+  <div data-id="101" class="section-bar" id="secbar-hodnoty-i9j0">02 — HODNOTY ZNAČKY</div>
+
+  <div data-id="102" class="max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-16">
+    <div data-id="103" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="values-grid-k1l2">
+      <!-- Value 1 -->
+      <div data-id="104" class="value-card">
+        <span data-id="105" class="card-number">01</span>
+        <div data-id="106" class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-4">
+          <i data-id="107" data-lucide="check-circle" class="w-5 h-5 text-fort-blue"></i>
+        </div>
+        <h4 data-id="108" class="font-bold text-fort-dark text-base uppercase tracking-wider mb-2">Spolehlivost</h4>
+        <p data-id="109" class="text-sm text-fort-mid">Vše funguje, jak má. Zákazník může spoléhat na každý produkt i službu.</p>
+      </div>
+      <!-- Value 2 -->
+      <div data-id="110" class="value-card">
+        <span data-id="111" class="card-number">02</span>
+        <div data-id="112" class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-4">
+          <i data-id="113" data-lucide="shield" class="w-5 h-5 text-fort-blue"></i>
+        </div>
+        <h4 data-id="114" class="font-bold text-fort-dark text-base uppercase tracking-wider mb-2">Bezpečí</h4>
+        <p data-id="115" class="text-sm text-fort-mid">Ochrana majetku i duševního klidu. Fortyron je tu vždy, když vás potřebují.</p>
+      </div>
+      <!-- Value 3 -->
+      <div data-id="116" class="value-card">
+        <span data-id="117" class="card-number">03</span>
+        <div data-id="118" class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-4">
+          <i data-id="119" data-lucide="settings" class="w-5 h-5 text-fort-blue"></i>
+        </div>
+        <h4 data-id="120" class="font-bold text-fort-dark text-base uppercase tracking-wider mb-2">Technická preciznost</h4>
+        <p data-id="121" class="text-sm text-fort-mid">Žádné kompromisy v kvalitě. Detaily rozhodují o celkové spolehlivosti systému.</p>
+      </div>
+      <!-- Value 4 -->
+      <div data-id="122" class="value-card">
+        <span data-id="123" class="card-number">04</span>
+        <div data-id="124" class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-4">
+          <i data-id="125" data-lucide="handshake" class="w-5 h-5 text-fort-blue"></i>
+        </div>
+        <h4 data-id="126" class="font-bold text-fort-dark text-base uppercase tracking-wider mb-2">Důvěra</h4>
+        <p data-id="127" class="text-sm text-fort-mid">Férové jednání, jasná komunikace, žádná skrytá ujednání ani poplatky.</p>
+      </div>
+      <!-- Value 5 -->
+      <div data-id="128" class="value-card">
+        <span data-id="129" class="card-number">05</span>
+        <div data-id="130" class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-4">
+          <i data-id="131" data-lucide="lightbulb" class="w-5 h-5 text-fort-blue"></i>
+        </div>
+        <h4 data-id="132" class="font-bold text-fort-dark text-base uppercase tracking-wider mb-2">Inovace</h4>
+        <p data-id="133" class="text-sm text-fort-mid">Sledování trendů, chytré technologie, neustálý rozvoj a zlepšování.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ 03 — CÍLOVÁ SKUPINA ═══════ -->
+<section data-id="134" id="cilova-skupina" class="fade-section print-page-break" style="background:#fff;">
+  <div data-id="135" class="section-bar" id="secbar-cilova-m3n4">03 — CÍLOVÁ SKUPINA</div>
+
+  <div data-id="136" class="max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-16">
+    <div data-id="137" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12" id="personas-o5p6">
+      <!-- Persona 1 -->
+      <div data-id="138" class="persona-card">
+        <div data-id="139" class="flex items-center gap-2 mb-2">
+          <span data-id="140" class="text-xs font-bold uppercase tracking-widest text-fort-blue">Primární zákazník</span>
+        </div>
+        <div data-id="141" class="flex items-center gap-4 mb-5">
+          <div data-id="142" class="w-16 h-16 rounded-full bg-fort-dark flex items-center justify-center flex-shrink-0">
+            <i data-id="143" data-lucide="user" class="w-8 h-8 text-fort-silver"></i>
+          </div>
+          <div data-id="144">
+            <h4 data-id="145" class="font-bold text-fort-dark text-lg">„Technický Pavel"</h4>
+            <p data-id="146" class="text-sm text-gray-500">25–55 let · Muž · Majitel domu / bytu</p>
+          </div>
+        </div>
+        <div data-id="147" class="flex flex-wrap gap-1 mb-4">
+          <span data-id="148" class="tag">#spolehlivost</span>
+          <span data-id="149" class="tag">#technologie</span>
+          <span data-id="150" class="tag">#kvalita</span>
+          <span data-id="151" class="tag">#bezpečí</span>
+        </div>
+        <blockquote data-id="152" class="border-l-3 border-fort-blue pl-4 italic text-sm text-fort-mid" style="border-left: 3px solid var(--fort-blue);">
+          „Chci mít věci pod kontrolou a vědět, že rodina je v bezpečí."
+        </blockquote>
+      </div>
+
+      <!-- Persona 2 -->
+      <div data-id="153" class="persona-card">
+        <div data-id="154" class="flex items-center gap-2 mb-2">
+          <span data-id="155" class="text-xs font-bold uppercase tracking-widest text-fort-silver">Sekundární zákazník</span>
+        </div>
+        <div data-id="156" class="flex items-center gap-4 mb-5">
+          <div data-id="157" class="w-16 h-16 rounded-full bg-fort-mid flex items-center justify-center flex-shrink-0">
+            <i data-id="158" data-lucide="user" class="w-8 h-8 text-white"></i>
+          </div>
+          <div data-id="159">
+            <h4 data-id="160" class="font-bold text-fort-dark text-lg">„Podnikatelka Jana"</h4>
+            <p data-id="161" class="text-sm text-gray-500">30–50 let · Malé a střední firmy</p>
+          </div>
+        </div>
+        <div data-id="162" class="flex flex-wrap gap-1 mb-4">
+          <span data-id="163" class="tag">#ochrana</span>
+          <span data-id="164" class="tag">#provozovna</span>
+          <span data-id="165" class="tag">#profesionalita</span>
+        </div>
+        <blockquote data-id="166" class="border-l-3 border-fort-silver pl-4 italic text-sm text-fort-mid" style="border-left: 3px solid var(--fort-silver);">
+          „Potřebuji spolehlivé zabezpečení, abych se mohla soustředit na byznys."
+        </blockquote>
+      </div>
+    </div>
+
+    <!-- Psychographic Traits -->
+    <h3 data-id="167" class="text-xs uppercase tracking-widest text-fort-silver font-semibold mb-5">Psychografické rysy</h3>
+    <div data-id="168" class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="traits-q7r8">
+      <div data-id="169" class="flex items-center gap-3 bg-fort-light rounded-lg p-4">
+        <i data-id="170" data-lucide="search" class="w-5 h-5 text-fort-blue flex-shrink-0"></i>
+        <span data-id="171" class="text-sm text-fort-mid">Hledá ověřená řešení s jasnou hodnotou</span>
+      </div>
+      <div data-id="172" class="flex items-center gap-3 bg-fort-light rounded-lg p-4">
+        <i data-id="173" data-lucide="bar-chart-3" class="w-5 h-5 text-fort-blue flex-shrink-0"></i>
+        <span data-id="174" class="text-sm text-fort-mid">Porovnává technické parametry před nákupem</span>
+      </div>
+      <div data-id="175" class="flex items-center gap-3 bg-fort-light rounded-lg p-4">
+        <i data-id="176" data-lucide="brain" class="w-5 h-5 text-fort-blue flex-shrink-0"></i>
+        <span data-id="177" class="text-sm text-fort-mid">Oceňuje odbornost a technickou podporu</span>
+      </div>
+      <div data-id="178" class="flex items-center gap-3 bg-fort-light rounded-lg p-4">
+        <i data-id="179" data-lucide="heart" class="w-5 h-5 text-fort-blue flex-shrink-0"></i>
+        <span data-id="180" class="text-sm text-fort-mid">Klid a pocit bezpečí pro rodinu / firmu</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ 04 — PRODUKTY & SLUŽBY ═══════ -->
+<section data-id="181" id="produkty" class="fade-section print-page-break" style="background:var(--fort-dark);">
+  <div data-id="182" class="section-bar" id="secbar-prod-s9t0" style="background:rgba(255,255,255,0.08);">04 — PRODUKTY &amp; SLUŽBY</div>
+
+  <div data-id="183" class="max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-16">
+    <div data-id="184" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-14" id="products-u1v2">
+      <div data-id="185" class="product-card">
+        <div data-id="186" class="text-3xl mb-3">📷</div>
+        <h4 data-id="187" class="font-bold text-fort-dark text-sm uppercase tracking-wider mb-2">Kamerové systémy</h4>
+        <p data-id="188" class="text-sm text-fort-mid">IP kamery, NVR/DVR sety, venkovní i vnitřní řešení pro nepřetržitý dohled.</p>
+      </div>
+      <div data-id="189" class="product-card">
+        <div data-id="190" class="text-3xl mb-3">🚨</div>
+        <h4 data-id="191" class="font-bold text-fort-dark text-sm uppercase tracking-wider mb-2">Poplachové systémy</h4>
+        <p data-id="192" class="text-sm text-fort-mid">Alarmy, senzory pohybu, kouřové a záplavové detektory.</p>
+      </div>
+      <div data-id="193" class="product-card">
+        <div data-id="194" class="text-3xl mb-3">🏠</div>
+        <h4 data-id="195" class="font-bold text-fort-dark text-sm uppercase tracking-wider mb-2">Chytrá domácnost</h4>
+        <p data-id="196" class="text-sm text-fort-mid">Smart prvky, automatizace, ovládání přes mobilní aplikaci odkudkoli.</p>
+      </div>
+      <div data-id="197" class="product-card">
+        <div data-id="198" class="text-3xl mb-3">🌐</div>
+        <h4 data-id="199" class="font-bold text-fort-dark text-sm uppercase tracking-wider mb-2">Síťové prvky</h4>
+        <p data-id="200" class="text-sm text-fort-mid">Routery, switche, přístupové body, strukturovaná kabeláž.</p>
+      </div>
+      <div data-id="201" class="product-card">
+        <div data-id="202" class="text-3xl mb-3">💻</div>
+        <h4 data-id="203" class="font-bold text-fort-dark text-sm uppercase tracking-wider mb-2">PC sestavy &amp; Hardware</h4>
+        <p data-id="204" class="text-sm text-fort-mid">Sestavy na míru, komponenty, příslušenství a poradenství.</p>
+      </div>
+    </div>
+
+    <!-- Services Band -->
+    <div data-id="205" class="rounded-xl p-8" style="background:rgba(46,134,222,0.12);" id="services-w3x4">
+      <h3 data-id="206" class="text-white font-bold text-sm uppercase tracking-widest mb-5">
+        <i data-id="207" data-lucide="wrench" class="w-4 h-4 inline-block mr-2 text-fort-blue"></i>Naše služby
+      </h3>
+      <div data-id="208" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div data-id="209" class="flex items-start gap-3">
+          <i data-id="210" data-lucide="message-circle" class="w-4 h-4 text-fort-blue mt-1 flex-shrink-0"></i>
+          <span data-id="211" class="text-sm text-gray-200">Odborné poradenství a návrh řešení</span>
+        </div>
+        <div data-id="212" class="flex items-start gap-3">
+          <i data-id="213" data-lucide="sliders-horizontal" class="w-4 h-4 text-fort-blue mt-1 flex-shrink-0"></i>
+          <span data-id="214" class="text-sm text-gray-200">Konfigurace a parametrizace systémů</span>
+        </div>
+        <div data-id="215" class="flex items-start gap-3">
+          <i data-id="216" data-lucide="map-pin" class="w-4 h-4 text-fort-blue mt-1 flex-shrink-0"></i>
+          <span data-id="217" class="text-sm text-gray-200">Instalace na místě (Praha a okolí)</span>
+        </div>
+        <div data-id="218" class="flex items-start gap-3">
+          <i data-id="219" data-lucide="monitor" class="w-4 h-4 text-fort-blue mt-1 flex-shrink-0"></i>
+          <span data-id="220" class="text-sm text-gray-200">Vzdálená správa a podpora</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- E-shop Badge -->
+    <div data-id="221" class="mt-8 text-center">
+      <span data-id="222" class="inline-flex items-center gap-2 bg-white text-fort-dark rounded-full px-6 py-3 text-sm font-semibold shadow-lg">
+        🛒 E-shop napojený na feedy: <span data-id="223" class="text-fort-blue">ATC</span> · <span data-id="224" class="text-fort-blue">Abacus</span> · <span data-id="225" class="text-fort-blue">Evolveo</span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ 05 — VIZUÁLNÍ IDENTITA ═══════ -->
+<section data-id="226" id="vizual" class="fade-section print-page-break" style="background:#fff;">
+  <div data-id="227" class="section-bar" id="secbar-vizual-y5z6">05 — VIZUÁLNÍ IDENTITA</div>
+
+  <div data-id="228" class="max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-16">
+    <!-- Color Palette -->
+    <h3 data-id="229" class="text-xs uppercase tracking-widest text-fort-silver font-semibold mb-6">Barevná paleta</h3>
+    <div data-id="230" class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14" id="palette-a7b8">
+      <div data-id="231" class="swatch">
+        <div data-id="232" class="swatch-block" style="background:#0D1B2A;"></div>
+        <div data-id="233" class="swatch-label">
+          <span data-id="234" class="font-mono text-xs font-bold">#0D1B2A</span>
+          <p data-id="235" class="text-xs text-gray-500 mt-1">Primární tmavá</p>
+        </div>
+      </div>
+      <div data-id="236" class="swatch">
+        <div data-id="237" class="swatch-block" style="background:#2E86DE;"></div>
+        <div data-id="238" class="swatch-label">
+          <span data-id="239" class="font-mono text-xs font-bold">#2E86DE</span>
+          <p data-id="240" class="text-xs text-gray-500 mt-1">Elektrická modrá</p>
+        </div>
+      </div>
+      <div data-id="241" class="swatch">
+        <div data-id="242" class="swatch-block" style="background:#C0C0C0;"></div>
+        <div data-id="243" class="swatch-label">
+          <span data-id="244" class="font-mono text-xs font-bold">#C0C0C0</span>
+          <p data-id="245" class="text-xs text-gray-500 mt-1">Stříbrná</p>
+        </div>
+      </div>
+      <div data-id="246" class="swatch">
+        <div data-id="247" class="swatch-block" style="background:#111111;"></div>
+        <div data-id="248" class="swatch-label">
+          <span data-id="249" class="font-mono text-xs font-bold">#111111</span>
+          <p data-id="250" class="text-xs text-gray-500 mt-1">Černá</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typography -->
+    <h3 data-id="251" class="text-xs uppercase tracking-widest text-fort-silver font-semibold mb-6">Typografie</h3>
+    <div data-id="252" class="bg-fort-light rounded-xl p-8 mb-14" id="typo-c9d0">
+      <p data-id="253" class="text-4xl font-black text-fort-dark tracking-widest uppercase mb-4">FORTYRON</p>
+      <p data-id="254" class="text-lg font-semibold text-fort-mid mb-1">Inter · Bold · Uppercase · Tracking Wide</p>
+      <p data-id="255" class="text-fort-mid mt-4" style="max-width:600px;">
+        Fortyron používá jako hlavní písmo <strong data-id="256">Inter</strong>. Nadpisy jsou vždy velká písmena s rozšířeným prokládáním. Tělo textu je v běžné váze o velikosti 15 px s řádkovým prokladem 1.7.
+      </p>
+    </div>
+
+    <!-- Logo Guidelines -->
+    <h3 data-id="257" class="text-xs uppercase tracking-widest text-fort-silver font-semibold mb-6">Pravidla pro použití loga</h3>
+    <div data-id="258" class="overflow-x-auto" id="logo-rules-e1f2">
+      <table data-id="259" class="w-full text-sm border-collapse">
+        <thead data-id="260">
+          <tr data-id="261" class="border-b-2 border-fort-dark">
+            <th data-id="262" class="text-left py-3 px-4 font-bold text-fort-dark uppercase text-xs tracking-wider">Pravidlo</th>
+            <th data-id="263" class="text-left py-3 px-4 font-bold text-green-600 uppercase text-xs tracking-wider">✓ Správně</th>
+            <th data-id="264" class="text-left py-3 px-4 font-bold text-red-600 uppercase text-xs tracking-wider">✗ Špatně</th>
+          </tr>
+        </thead>
+        <tbody data-id="265" class="text-fort-mid">
+          <tr data-id="266" class="border-b border-gray-200">
+            <td data-id="267" class="py-3 px-4 font-medium">Ochranná zóna</td>
+            <td data-id="268" class="py-3 px-4">Min. 20 px volného prostoru kolem loga</td>
+            <td data-id="269" class="py-3 px-4">Umisťovat logo těsně k ostatním prvkům</td>
+          </tr>
+          <tr data-id="270" class="border-b border-gray-200">
+            <td data-id="271" class="py-3 px-4 font-medium">Barvy pozadí</td>
+            <td data-id="272" class="py-3 px-4">Tmavé pozadí — bílé logo; světlé pozadí — tmavé logo</td>
+            <td data-id="273" class="py-3 px-4">Používat logo na barevném pozadí bez kontrastu</td>
+          </tr>
+          <tr data-id="274">
+            <td data-id="275" class="py-3 px-4 font-medium">Deformace</td>
+            <td data-id="276" class="py-3 px-4">Vždy zachovat originální proporce</td>
+            <td data-id="277" class="py-3 px-4">Roztahovat, otáčet nebo měnit barvy loga</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ 06 — KOMUNIKAČNÍ STRATEGIE ═══════ -->
+<section data-id="278" id="komunikace" class="fade-section print-page-break" style="background:var(--fort-light);">
+  <div data-id="279" class="section-bar" id="secbar-kom-g3h4">06 — KOMUNIKAČNÍ STRATEGIE</div>
+
+  <div data-id="280" class="max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-16">
+    <div data-id="281" class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12" id="comm-grid-i5j6">
+      <!-- Tone of Voice -->
+      <div data-id="282">
+        <h3 data-id="283" class="text-xs uppercase tracking-widest text-fort-silver font-semibold mb-5">Tón komunikace</h3>
+        <div data-id="284" class="space-y-3">
+          <div data-id="285" class="flex items-center gap-3 bg-white rounded-lg p-4 shadow-sm">
+            <i data-id="286" data-lucide="check" class="w-4 h-4 text-green-500 flex-shrink-0"></i>
+            <span data-id="287" class="text-sm text-fort-dark font-medium">Přímý a srozumitelný</span>
+          </div>
+          <div data-id="288" class="flex items-center gap-3 bg-white rounded-lg p-4 shadow-sm">
+            <i data-id="289" data-lucide="check" class="w-4 h-4 text-green-500 flex-shrink-0"></i>
+            <span data-id="290" class="text-sm text-fort-dark font-medium">Technický, ale lidský</span>
+          </div>
+          <div data-id="291" class="flex items-center gap-3 bg-white rounded-lg p-4 shadow-sm">
+            <i data-id="292" data-lucide="check" class="w-4 h-4 text-green-500 flex-shrink-0"></i>
+            <span data-id="293" class="text-sm text-fort-dark font-medium">Profesionální a přátelský</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Messages -->
+      <div data-id="294">
+        <h3 data-id="295" class="text-xs uppercase tracking-widest text-fort-silver font-semibold mb-5">Klíčová sdělení</h3>
+        <div data-id="296" class="bg-fort-dark rounded-xl p-6 text-white">
+          <ol data-id="297" class="space-y-3 text-sm" style="list-style:none; counter-reset:msg;">
+            <li data-id="298" class="flex gap-3" style="counter-increment:msg;">
+              <span data-id="299" class="text-fort-blue font-bold text-base" style="min-width:24px;">1.</span>
+              <span data-id="300">Bezpečnost, které můžete věřit</span>
+            </li>
+            <li data-id="301" class="flex gap-3" style="counter-increment:msg;">
+              <span data-id="302" class="text-fort-blue font-bold text-base" style="min-width:24px;">2.</span>
+              <span data-id="303">Technologie, která chrání to nejdůležitější</span>
+            </li>
+            <li data-id="304" class="flex gap-3" style="counter-increment:msg;">
+              <span data-id="305" class="text-fort-blue font-bold text-base" style="min-width:24px;">3.</span>
+              <span data-id="306">Jednoduché řešení pro složitý svět</span>
+            </li>
+            <li data-id="307" class="flex gap-3" style="counter-increment:msg;">
+              <span data-id="308" class="text-fort-blue font-bold text-base" style="min-width:24px;">4.</span>
+              <span data-id="309">Váš partner pro klidný spánek</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Channels -->
+      <div data-id="310">
+        <h3 data-id="311" class="text-xs uppercase tracking-widest text-fort-silver font-semibold mb-5">Komunikační kanály</h3>
+        <div data-id="312" class="space-y-3">
+          <div data-id="313" class="flex items-center gap-3 bg-white rounded-lg p-3 shadow-sm">
+            <i data-id="314" data-lucide="globe" class="w-4 h-4 text-fort-blue flex-shrink-0"></i>
+            <span data-id="315" class="text-sm text-fort-dark">Web — fortyron.cz</span>
+          </div>
+          <div data-id="316" class="flex items-center gap-3 bg-white rounded-lg p-3 shadow-sm">
+            <i data-id="317" data-lucide="mail" class="w-4 h-4 text-fort-blue flex-shrink-0"></i>
+            <span data-id="318" class="text-sm text-fort-dark">E-mail marketing</span>
+          </div>
+          <div data-id="319" class="flex items-center gap-3 bg-white rounded-lg p-3 shadow-sm">
+            <i data-id="320" data-lucide="share-2" class="w-4 h-4 text-fort-blue flex-shrink-0"></i>
+            <span data-id="321" class="text-sm text-fort-dark">Sociální sítě (FB, IG, LinkedIn)</span>
+          </div>
+          <div data-id="322" class="flex items-center gap-3 bg-white rounded-lg p-3 shadow-sm">
+            <i data-id="323" data-lucide="play" class="w-4 h-4 text-fort-blue flex-shrink-0"></i>
+            <span data-id="324" class="text-sm text-fort-dark">YouTube kanál</span>
+          </div>
+          <div data-id="325" class="flex items-center gap-3 bg-white rounded-lg p-3 shadow-sm">
+            <i data-id="326" data-lucide="megaphone" class="w-4 h-4 text-fort-blue flex-shrink-0"></i>
+            <span data-id="327" class="text-sm text-fort-dark">Google Ads</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Motto -->
+    <div data-id="328" class="text-center py-8">
+      <p data-id="329" class="text-3xl md:text-4xl font-semibold italic" style="color:var(--fort-blue);">
+        „Bezpečí začíná u Fortyronu."
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ 07 — STRATEGIE ROZVOJE ═══════ -->
+<section data-id="330" id="strategie" class="fade-section print-page-break" style="background:#fff;">
+  <div data-id="331" class="section-bar" id="secbar-strat-k7l8">07 — STRATEGIE ROZVOJE</div>
+
+  <div data-id="332" class="max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-16">
+    <!-- Timeline -->
+    <h3 data-id="333" class="text-xs uppercase tracking-widest text-fort-silver font-semibold mb-10 text-center">Plán rozvoje</h3>
+
+    <!-- Desktop Timeline -->
+    <div data-id="334" class="hidden md:flex timeline mb-16" id="timeline-m9n0">
+      <div data-id="335" class="timeline-item">
+        <div data-id="336" class="timeline-node" style="background:var(--fort-dark);">F1</div>
+        <div data-id="337" class="bg-fort-light rounded-xl p-5 mx-3 mt-4">
+          <h4 data-id="338" class="font-bold text-fort-dark text-sm uppercase mb-1">Fáze 1 — 2026</h4>
+          <p data-id="339" class="text-xs text-fort-blue font-semibold mb-3">SPUŠTĚNÍ</p>
+          <ul data-id="340" class="text-sm text-fort-mid space-y-1">
+            <li data-id="341">• Spuštění e-shopu fortyron.cz</li>
+            <li data-id="342">• Napojení na feedy ATC, Abacus, Evolveo</li>
+            <li data-id="343">• SEO a Google Ads kampaně</li>
+            <li data-id="344">• Budování sociálních sítí</li>
+          </ul>
+        </div>
+      </div>
+      <div data-id="345" class="timeline-item">
+        <div data-id="346" class="timeline-node" style="background:var(--fort-mid);">F2</div>
+        <div data-id="347" class="bg-fort-light rounded-xl p-5 mx-3 mt-4">
+          <h4 data-id="348" class="font-bold text-fort-dark text-sm uppercase mb-1">Fáze 2 — 2027</h4>
+          <p data-id="349" class="text-xs text-fort-blue font-semibold mb-3">RŮST</p>
+          <ul data-id="350" class="text-sm text-fort-mid space-y-1">
+            <li data-id="351">• Prémiové produkty v nabídce</li>
+            <li data-id="352">• YouTube kanál s recenzemi</li>
+            <li data-id="353">• Instalační partnerství</li>
+            <li data-id="354">• Certifikace a garance</li>
+          </ul>
+        </div>
+      </div>
+      <div data-id="355" class="timeline-item">
+        <div data-id="356" class="timeline-node" style="background:var(--fort-blue);">F3</div>
+        <div data-id="357" class="bg-fort-light rounded-xl p-5 mx-3 mt-4">
+          <h4 data-id="358" class="font-bold text-fort-dark text-sm uppercase mb-1">Fáze 3 — 2028+</h4>
+          <p data-id="359" class="text-xs text-fort-blue font-semibold mb-3">EXPANZE</p>
+          <ul data-id="360" class="text-sm text-fort-mid space-y-1">
+            <li data-id="361">• Vlastní Fortyron Smart Kit</li>
+            <li data-id="362">• Showroom v Praze</li>
+            <li data-id="363">• B2B segment a velkoobchod</li>
+            <li data-id="364">• Budování komunity</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Timeline -->
+    <div data-id="365" class="md:hidden space-y-6 mb-14" id="timeline-mob-p1q2">
+      <div data-id="366" class="border-l-4 border-fort-dark pl-5 pb-2">
+        <h4 data-id="367" class="font-bold text-fort-dark text-sm uppercase mb-1">Fáze 1 — 2026 · Spuštění</h4>
+        <ul data-id="368" class="text-sm text-fort-mid space-y-1 mt-2">
+          <li data-id="369">• Spuštění e-shopu fortyron.cz</li>
+          <li data-id="370">• Napojení na feedy ATC, Abacus, Evolveo</li>
+          <li data-id="371">• SEO a Google Ads kampaně</li>
+          <li data-id="372">• Budování sociálních sítí</li>
+        </ul>
+      </div>
+      <div data-id="373" class="border-l-4 border-fort-mid pl-5 pb-2">
+        <h4 data-id="374" class="font-bold text-fort-dark text-sm uppercase mb-1">Fáze 2 — 2027 · Růst</h4>
+        <ul data-id="375" class="text-sm text-fort-mid space-y-1 mt-2">
+          <li data-id="376">• Prémiové produkty v nabídce</li>
+          <li data-id="377">• YouTube kanál s recenzemi</li>
+          <li data-id="378">• Instalační partnerství</li>
+          <li data-id="379">• Certifikace a garance</li>
+        </ul>
+      </div>
+      <div data-id="380" class="border-l-4 border-fort-blue pl-5 pb-2">
+        <h4 data-id="381" class="font-bold text-fort-dark text-sm uppercase mb-1">Fáze 3 — 2028+ · Expanze</h4>
+        <ul data-id="382" class="text-sm text-fort-mid space-y-1 mt-2">
+          <li data-id="383">• Vlastní Fortyron Smart Kit</li>
+          <li data-id="384">• Showroom v Praze</li>
+          <li data-id="385">• B2B segment a velkoobchod</li>
+          <li data-id="386">• Budování komunity</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- KPI Table -->
+    <h3 data-id="387" class="text-xs uppercase tracking-widest text-fort-silver font-semibold mb-6">Klíčové ukazatele výkonnosti</h3>
+    <div data-id="388" class="overflow-x-auto rounded-xl shadow-sm" id="kpi-r3s4">
+      <table data-id="389" class="kpi-table">
+        <thead data-id="390">
+          <tr data-id="391">
+            <th data-id="392">Metrika</th>
+            <th data-id="393">Cíl 2026</th>
+            <th data-id="394">Cíl 2027</th>
+          </tr>
+        </thead>
+        <tbody data-id="395">
+          <tr data-id="396">
+            <td data-id="397" class="font-medium">Měsíční návštěvnost webu</td>
+            <td data-id="398" class="tabular-nums">2 000</td>
+            <td data-id="399" class="tabular-nums">10 000</td>
+          </tr>
+          <tr data-id="400">
+            <td data-id="401" class="font-medium">Objednávky / měsíc</td>
+            <td data-id="402" class="tabular-nums">50</td>
+            <td data-id="403" class="tabular-nums">300</td>
+          </tr>
+          <tr data-id="404">
+            <td data-id="405" class="font-medium">Followers na soc. sítích</td>
+            <td data-id="406" class="tabular-nums">500</td>
+            <td data-id="407" class="tabular-nums">3 000</td>
+          </tr>
+          <tr data-id="408">
+            <td data-id="409" class="font-medium">Hodnocení zákazníků</td>
+            <td data-id="410" class="tabular-nums">4,7 / 5</td>
+            <td data-id="411" class="tabular-nums">4,8 / 5</td>
+          </tr>
+          <tr data-id="412">
+            <td data-id="413" class="font-medium">Obchodní partneři</td>
+            <td data-id="414" class="tabular-nums">3</td>
+            <td data-id="415" class="tabular-nums">15</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ 08 — PRÁVNÍ & PROVOZNÍ RÁMEC ═══════ -->
+<section data-id="416" id="pravni" class="fade-section print-page-break" style="background:var(--fort-light);">
+  <div data-id="417" class="section-bar" id="secbar-pravni-t5u6">08 — PRÁVNÍ &amp; PROVOZNÍ RÁMEC</div>
+
+  <div data-id="418" class="max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-16">
+    <div data-id="419" class="grid grid-cols-1 md:grid-cols-3 gap-6" id="legal-v7w8">
+      <div data-id="420" class="legal-card">
+        <div data-id="421" class="flex items-center gap-2 mb-4">
+          <i data-id="422" data-lucide="shield-check" class="w-5 h-5 text-fort-blue"></i>
+          <h4 data-id="423" class="font-bold text-fort-dark text-sm uppercase tracking-wider">Ochrana značky</h4>
+        </div>
+        <ul data-id="424" class="text-sm text-fort-mid space-y-2">
+          <li data-id="425">• Registrace domény fortyron.cz</li>
+          <li data-id="426">• Ochranná známka — přihláška u ÚPV ČR</li>
+          <li data-id="427">• Autorská práva na logo a vizuální identitu</li>
+          <li data-id="428">• Monitoring neoprávněného užití</li>
+        </ul>
+      </div>
+      <div data-id="429" class="legal-card">
+        <div data-id="430" class="flex items-center gap-2 mb-4">
+          <i data-id="431" data-lucide="file-text" class="w-5 h-5 text-fort-blue"></i>
+          <h4 data-id="432" class="font-bold text-fort-dark text-sm uppercase tracking-wider">Obchodní podmínky</h4>
+        </div>
+        <ul data-id="433" class="text-sm text-fort-mid space-y-2">
+          <li data-id="434">• Zákonné obchodní podmínky e-shopu</li>
+          <li data-id="435">• Záruky dle české a EU legislativy</li>
+          <li data-id="436">• Reklamační řád dle NOZ</li>
+          <li data-id="437">• Odstoupení od smlouvy do 14 dnů</li>
+        </ul>
+      </div>
+      <div data-id="438" class="legal-card">
+        <div data-id="439" class="flex items-center gap-2 mb-4">
+          <i data-id="440" data-lucide="lock" class="w-5 h-5 text-fort-blue"></i>
+          <h4 data-id="441" class="font-bold text-fort-dark text-sm uppercase tracking-wider">GDPR &amp; data</h4>
+        </div>
+        <ul data-id="442" class="text-sm text-fort-mid space-y-2">
+          <li data-id="443">• Plné dodržování GDPR / nařízení EU</li>
+          <li data-id="444">• Cookies politika a souhlas návštěvníků</li>
+          <li data-id="445">• Bezpečné uložení osobních dat (SSL)</li>
+          <li data-id="446">• Pravidelný audit ochrany dat</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════ FOOTER / ZÁVĚR ═══════ -->
+<footer data-id="447" style="background:var(--fort-dark);" class="print-page-break" id="footer-x9y0">
+  <div data-id="448" class="max-w-4xl mx-auto px-4 md:px-8 py-16 md:py-24 text-center">
+    <p data-id="449" class="text-2xl md:text-3xl font-bold text-white mb-3">Fortyron není jen e-shop.</p>
+    <p data-id="450" class="text-base text-gray-400 mb-10 max-w-xl mx-auto">
+      Je to váš partner pro bezpečnost. Přidejte se k těm, kteří berou bezpečí vážně.
+    </p>
+    <p data-id="451" class="text-2xl md:text-3xl font-semibold italic mb-12" style="color:var(--fort-blue);">
+      „Bezpečí začíná u Fortyronu."
+    </p>
+    <div data-id="452" class="w-16 h-px mx-auto mb-8" style="background:var(--fort-silver); opacity:0.4;"></div>
+    <p data-id="453" class="text-xs uppercase tracking-widest" style="color:var(--fort-silver);">
+      Tým Fortyron &nbsp;·&nbsp; fortyron.cz &nbsp;·&nbsp; Září 2026
+    </p>
+    <p data-id="454" class="text-xs mt-6" style="color:rgba(255,255,255,0.25);">Made by Copilot</p>
+  </div>
+</footer>
+
+<script>
+  // Guard Lucide
+  if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
+    lucide.createIcons();
+  }
+
+  // ── Print buttons ──
+  var printBtnDesktop = document.getElementById('print-btn-d8k1');
+  var printBtnMob = document.getElementById('print-btn-mob-e3w9');
+  if (printBtnDesktop) printBtnDesktop.addEventListener('click', function() { window.print(); });
+  if (printBtnMob) printBtnMob.addEventListener('click', function() { window.print(); });
+
+  // ── Mobile menu ──
+  var mobileMenuBtn = document.getElementById('mobile-menu-btn-a2v5');
+  var mobileMenu = document.getElementById('mobile-menu-r7q3');
+  var mobileMenuClose = document.getElementById('mobile-menu-close-j4t8');
+
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', function() {
+      mobileMenu.classList.add('open');
+    });
+  }
+  if (mobileMenuClose) {
+    mobileMenuClose.addEventListener('click', function() {
+      mobileMenu.classList.remove('open');
+    });
+  }
+  // Close mobile menu on link click
+  document.querySelectorAll('.mobile-nav-link').forEach(function(link) {
+    link.addEventListener('click', function() {
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  // ── Smooth scroll offset for fixed nav ──
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        var offset = 60;
+        var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // ── Active nav link on scroll (IntersectionObserver) ──
+  var navLinks = document.querySelectorAll('#nav-links-k3m7 a');
+  var sectionIds = [];
+  navLinks.forEach(function(link) {
+    var id = link.getAttribute('href').replace('#', '');
+    if (id) sectionIds.push(id);
+  });
+
+  var observerOptions = { rootMargin: '-80px 0px -60% 0px', threshold: 0 };
+  var activeId = '';
+
+  var navObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        activeId = entry.target.id;
+        navLinks.forEach(function(link) {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + activeId);
+        });
+      }
+    });
+  }, observerOptions);
+
+  sectionIds.forEach(function(id) {
+    var sec = document.getElementById(id);
+    if (sec) navObserver.observe(sec);
+  });
+
+  // ── Fade-in on scroll ──
+  var fadeSections = document.querySelectorAll('.fade-section');
+  var fadeObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  fadeSections.forEach(function(sec) {
+    fadeObserver.observe(sec);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <title>Fortyron – Zákaznická landing page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                dark: '#0D1B2A',
+                mid: '#1A3A5C',
+                blue: '#2E86DE',
+                blueHover: '#1a6fc2',
+                silver: '#C0C0C0',
+                black: '#111111',
+                light: '#F4F6F9',
+                white: '#FFFFFF',
+                silverLight: '#e0e0e0',
+                blueFaded: 'rgba(46,134,222,0.15)',
+                blueGlow: 'rgba(46,134,222,0.25)',
+              },
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      body { margin: 0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+      /* Scroll behavior */
+      html { scroll-behavior: smooth; }
+
+      /* Navbar transition */
+      .navbar { transition: background-color 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease; }
+      .navbar.scrolled { background-color: rgba(13,27,42,0.97); border-bottom: 1px solid rgba(192,192,192,0.12); backdrop-filter: blur(12px); }
+
+      /* Floating shapes */
+      .float-shape {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0;
+        animation: floatAnim 18s ease-in-out infinite;
+      }
+      .float-hex {
+        position: absolute;
+        opacity: 0;
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        animation: floatAnim 22s ease-in-out infinite;
+      }
+      @keyframes floatAnim {
+        0%, 100% { opacity: 0.04; transform: translateY(0px) translateX(0px); }
+        25% { opacity: 0.08; transform: translateY(-30px) translateX(15px); }
+        50% { opacity: 0.05; transform: translateY(-15px) translateX(-10px); }
+        75% { opacity: 0.09; transform: translateY(20px) translateX(20px); }
+      }
+
+      /* Shield rotation */
+      .shield-rotate { animation: shieldSpin 60s linear infinite; }
+      @keyframes shieldSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+      /* Scroll indicator bounce */
+      .scroll-bounce { animation: bounce 2.2s ease-in-out infinite; }
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); opacity: 0.7; }
+        50% { transform: translateY(12px); opacity: 1; }
+      }
+
+      /* Fade-up on scroll */
+      .fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+      .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+      /* Product card hover */
+      .product-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-left-color 0.3s ease;
+        border-left: 4px solid transparent;
+      }
+      .product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        border-left-color: #2E86DE;
+      }
+
+      /* Glass card */
+      .glass-card {
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+
+      /* Button hover */
+      .btn-hover { transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease; }
+      .btn-hover:hover { transform: scale(1.03); filter: brightness(1.1); }
+
+      /* Counter animation */
+      .counter-val { font-variant-numeric: tabular-nums; }
+
+      /* CTA diagonal pattern */
+      .cta-pattern {
+        background-image: repeating-linear-gradient(
+          135deg,
+          transparent,
+          transparent 40px,
+          rgba(255,255,255,0.04) 40px,
+          rgba(255,255,255,0.04) 42px
+        );
+      }
+
+      /* Process connector */
+      .process-line { border-top: 2px dashed rgba(46,134,222,0.35); }
+
+      /* Form focus glow */
+      .form-input:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(46,134,222,0.3);
+        border-color: #2E86DE;
+      }
+      .form-input { transition: box-shadow 0.25s ease, border-color 0.25s ease; }
+
+      /* Star color */
+      .star-gold { color: #F5B731; }
+
+      /* Tag style */
+      .tag-pill {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 9999px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        background: rgba(46,134,222,0.1);
+        color: #2E86DE;
+        margin: 2px 2px;
+      }
+
+      /* Submit spinner */
+      .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+
+      /* Testimonial quote icon */
+      .quote-icon { font-size: 3rem; line-height: 1; color: #2E86DE; opacity: 0.3; font-family: Georgia, serif; }
+
+      /* Trust badge strip */
+      .trust-strip-item { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: #C0C0C0; }
+
+      /* Mobile menu */
+      .mobile-menu { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease; }
+      .mobile-menu.open { transform: translateX(0); opacity: 1; }
+      .mobile-menu.closed { transform: translateX(100%); opacity: 0; pointer-events: none; }
+
+      /* Stagger children */
+      .fade-up.visible .stagger-1 { transition-delay: 0.1s; }
+      .fade-up.visible .stagger-2 { transition-delay: 0.2s; }
+      .fade-up.visible .stagger-3 { transition-delay: 0.3s; }
+    </style>
+</head>
+<body data-id="0" class="bg-brand-dark text-white">
+    <app-icon data-id="1" hidden data-icon="shield" data-palette="Blue"></app-icon>
+
+    <!-- NAVBAR -->
+    <nav data-id="2" id="navbar-main" class="navbar fixed top-0 left-0 w-full z-50 bg-transparent border-b border-transparent">
+        <div data-id="3" class="max-w-7xl mx-auto flex items-center justify-between px-5 py-3 md:py-4 md:px-8">
+            <!-- Logo -->
+            <a data-id="4" href="#" class="flex flex-col leading-tight" id="logo-link-a1b2">
+                <span data-id="5" class="text-xl md:text-2xl font-black tracking-tight text-white" style="letter-spacing:-0.03em;">FORTYRON</span>
+                <span data-id="6" class="text-[0.6rem] md:text-xs font-light text-brand-silver tracking-widest uppercase" style="margin-top:-2px;">Security & Tech</span>
+            </a>
+            <!-- Desktop nav -->
+            <div data-id="7" class="hidden lg:flex items-center gap-7">
+                <a data-id="8" href="#produkty" class="text-sm font-medium text-brand-silver hover:text-white transition-colors">Produkty</a>
+                <a data-id="9" href="#sluzby" class="text-sm font-medium text-brand-silver hover:text-white transition-colors">Služby</a>
+                <a data-id="10" href="#jak-to-funguje" class="text-sm font-medium text-brand-silver hover:text-white transition-colors">Jak to funguje</a>
+                <a data-id="11" href="#reference" class="text-sm font-medium text-brand-silver hover:text-white transition-colors">Reference</a>
+                <a data-id="12" href="#kontakt" class="text-sm font-medium text-brand-silver hover:text-white transition-colors">Kontakt</a>
+            </div>
+            <!-- Desktop CTA -->
+            <div data-id="13" class="hidden lg:flex items-center gap-3">
+                <a data-id="14" href="tel:+420000000000" class="flex items-center gap-2 text-sm font-medium text-white border border-white/30 rounded-lg px-4 py-2 hover:bg-white/10 transition btn-hover" id="cta-call-nav-x1">
+                    <i data-id="15" data-lucide="phone" class="w-4 h-4"></i> Zavolat
+                </a>
+                <a data-id="16" href="#kontakt" class="text-sm font-semibold text-white bg-brand-blue rounded-lg px-5 py-2.5 hover:bg-brand-blueHover transition btn-hover" id="cta-offer-nav-x2">Získat nabídku</a>
+            </div>
+            <!-- Mobile hamburger -->
+            <button data-id="17" id="mobile-menu-btn" class="lg:hidden p-2 text-white" aria-label="Menu">
+                <i data-id="18" data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile menu overlay -->
+    <div data-id="19" id="mobile-menu" class="mobile-menu closed fixed inset-0 bg-brand-dark/98 z-[60] flex flex-col p-6 pt-5 lg:hidden">
+        <div data-id="20" class="flex justify-between items-center mb-10">
+            <span data-id="21" class="text-xl font-black text-white">FORTYRON</span>
+            <button data-id="22" id="mobile-menu-close" class="p-2 text-white" aria-label="Zavřít menu">
+                <i data-id="23" data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <div data-id="24" class="flex flex-col gap-5">
+            <a data-id="25" href="#produkty" class="mobile-nav-link text-lg font-semibold text-brand-silver hover:text-white transition-colors">Produkty</a>
+            <a data-id="26" href="#sluzby" class="mobile-nav-link text-lg font-semibold text-brand-silver hover:text-white transition-colors">Služby</a>
+            <a data-id="27" href="#jak-to-funguje" class="mobile-nav-link text-lg font-semibold text-brand-silver hover:text-white transition-colors">Jak to funguje</a>
+            <a data-id="28" href="#reference" class="mobile-nav-link text-lg font-semibold text-brand-silver hover:text-white transition-colors">Reference</a>
+            <a data-id="29" href="#kontakt" class="mobile-nav-link text-lg font-semibold text-brand-silver hover:text-white transition-colors">Kontakt</a>
+        </div>
+        <div data-id="30" class="mt-auto flex flex-col gap-3 pb-6">
+            <a data-id="31" href="tel:+420000000000" class="flex items-center justify-center gap-2 text-sm font-medium text-white border border-white/30 rounded-lg px-4 py-3 hover:bg-white/10 transition">
+                <i data-id="32" data-lucide="phone" class="w-4 h-4"></i> Zavolat
+            </a>
+            <a data-id="33" href="#kontakt" class="mobile-nav-link flex items-center justify-center text-sm font-semibold text-white bg-brand-blue rounded-lg px-5 py-3 hover:bg-brand-blueHover transition">Získat nabídku</a>
+        </div>
+    </div>
+
+    <main data-id="34">
+        <!-- HERO SECTION -->
+        <section data-id="35" id="hero-section-h1r0" class="relative min-h-screen flex items-center overflow-hidden" style="background: linear-gradient(135deg, #0D1B2A 0%, #0f2035 40%, #132d4a 100%);">
+            <!-- Floating shapes -->
+            <div data-id="36" class="float-shape" style="width:300px;height:300px;top:10%;left:5%;background:radial-gradient(circle,rgba(46,134,222,0.12),transparent);animation-delay:0s;"></div>
+            <div data-id="37" class="float-shape" style="width:180px;height:180px;top:60%;left:15%;background:radial-gradient(circle,rgba(26,58,92,0.2),transparent);animation-delay:4s;"></div>
+            <div data-id="38" class="float-hex" style="width:140px;height:140px;top:20%;right:30%;background:rgba(46,134,222,0.08);animation-delay:2s;"></div>
+            <div data-id="39" class="float-shape" style="width:220px;height:220px;bottom:15%;right:10%;background:radial-gradient(circle,rgba(46,134,222,0.07),transparent);animation-delay:6s;"></div>
+            <div data-id="40" class="float-hex" style="width:100px;height:100px;top:70%;right:45%;background:rgba(192,192,192,0.04);animation-delay:8s;"></div>
+            <div data-id="41" class="float-shape" style="width:120px;height:120px;top:5%;right:20%;background:radial-gradient(circle,rgba(192,192,192,0.05),transparent);animation-delay:10s;"></div>
+
+            <!-- Shield SVG -->
+            <div data-id="42" class="absolute right-[-60px] top-1/2 -translate-y-1/2 opacity-[0.07] hidden md:block shield-rotate" style="width:420px;height:420px;">
+                <svg data-id="43" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                    <defs data-id="44">
+                        <linearGradient data-id="45" id="shieldGrad" x1="0" y1="0" x2="200" y2="220">
+                            <stop data-id="46" offset="0%" stop-color="#C0C0C0"/>
+                            <stop data-id="47" offset="100%" stop-color="#2E86DE"/>
+                        </linearGradient>
+                    </defs>
+                    <path data-id="48" d="M100 10 L185 50 L185 120 C185 165 145 200 100 215 C55 200 15 165 15 120 L15 50 Z" stroke="url(#shieldGrad)" stroke-width="3" fill="none"/>
+                    <path data-id="49" d="M100 35 L165 65 L165 115 C165 150 135 180 100 192 C65 180 35 150 35 115 L35 65 Z" stroke="url(#shieldGrad)" stroke-width="1.5" fill="none" opacity="0.5"/>
+                    <!-- Circuit lines -->
+                    <line data-id="50" x1="60" y1="80" x2="140" y2="80" stroke="url(#shieldGrad)" stroke-width="0.8" opacity="0.4"/>
+                    <line data-id="51" x1="60" y1="110" x2="140" y2="110" stroke="url(#shieldGrad)" stroke-width="0.8" opacity="0.4"/>
+                    <line data-id="52" x1="60" y1="140" x2="140" y2="140" stroke="url(#shieldGrad)" stroke-width="0.8" opacity="0.3"/>
+                    <line data-id="53" x1="80" y1="60" x2="80" y2="170" stroke="url(#shieldGrad)" stroke-width="0.8" opacity="0.3"/>
+                    <line data-id="54" x1="120" y1="60" x2="120" y2="170" stroke="url(#shieldGrad)" stroke-width="0.8" opacity="0.3"/>
+                    <line data-id="55" x1="100" y1="50" x2="100" y2="185" stroke="url(#shieldGrad)" stroke-width="0.8" opacity="0.25"/>
+                    <!-- Circuit nodes -->
+                    <circle data-id="56" cx="80" cy="80" r="3" fill="#2E86DE" opacity="0.5"/>
+                    <circle data-id="57" cx="120" cy="80" r="3" fill="#C0C0C0" opacity="0.5"/>
+                    <circle data-id="58" cx="100" cy="110" r="4" fill="#2E86DE" opacity="0.6"/>
+                    <circle data-id="59" cx="80" cy="140" r="3" fill="#C0C0C0" opacity="0.4"/>
+                    <circle data-id="60" cx="120" cy="140" r="3" fill="#2E86DE" opacity="0.4"/>
+                    <circle data-id="61" cx="100" cy="80" r="2.5" fill="#2E86DE" opacity="0.5"/>
+                    <circle data-id="62" cx="80" cy="110" r="2.5" fill="#C0C0C0" opacity="0.4"/>
+                    <circle data-id="63" cx="120" cy="110" r="2.5" fill="#C0C0C0" opacity="0.4"/>
+                </svg>
+            </div>
+
+            <!-- Hero Content -->
+            <div data-id="64" class="relative z-10 max-w-7xl mx-auto px-5 md:px-8 w-full pt-28 pb-20 md:pt-32 md:pb-24">
+                <div data-id="65" class="max-w-2xl">
+                    <!-- Pill badge -->
+                    <div data-id="66" class="fade-up inline-flex items-center gap-2 border border-brand-silver/30 rounded-full px-4 py-1.5 mb-6">
+                        <i data-id="67" data-lucide="lock" class="w-3.5 h-3.5 text-brand-blue"></i>
+                        <span data-id="68" class="text-xs font-medium text-brand-silver tracking-wide">Profesionální bezpečnostní řešení</span>
+                    </div>
+                    <!-- H1 -->
+                    <h1 data-id="69" class="fade-up text-[2.8rem] md:text-[4rem] lg:text-[5rem] font-black text-white leading-[1.05] mb-6" style="letter-spacing:-0.02em;">
+                        Bezpečí začíná<br data-id="70"/><span data-id="71" class="text-brand-blue">u&nbsp;Fortyronu.</span>
+                    </h1>
+                    <!-- Paragraph -->
+                    <p data-id="72" class="fade-up text-base md:text-lg text-brand-silver leading-relaxed max-w-[520px] mb-8">
+                        Chytré kamerové systémy, alarmy a zabezpečení pro váš domov i&nbsp;firmu. Profesionální poradenství, rychlá instalace, spolehlivý servis.
+                    </p>
+                    <!-- CTAs -->
+                    <div data-id="73" class="fade-up flex flex-col sm:flex-row gap-3 mb-8">
+                        <a data-id="74" href="#produkty" class="inline-flex items-center justify-center gap-2 bg-brand-blue text-white font-semibold text-base rounded-lg px-7 py-3.5 btn-hover hover:bg-brand-blueHover transition" id="hero-cta1-p1">
+                            Zobrazit produkty <i data-id="75" data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <a data-id="76" href="#kontakt" class="inline-flex items-center justify-center gap-2 border border-white/30 text-white font-semibold text-base rounded-lg px-7 py-3.5 btn-hover hover:bg-white/10 transition" id="hero-cta2-p2">
+                            Bezplatná konzultace
+                        </a>
+                    </div>
+                    <!-- Trust signals -->
+                    <div data-id="77" class="fade-up flex flex-wrap gap-x-5 gap-y-2 text-sm text-brand-silver">
+                        <span data-id="78" class="flex items-center gap-1.5"><i data-id="79" data-lucide="check" class="w-4 h-4 text-brand-blue"></i> Záruka 24 měsíců</span>
+                        <span data-id="80" class="flex items-center gap-1.5"><i data-id="81" data-lucide="check" class="w-4 h-4 text-brand-blue"></i> Instalace Praha &amp; okolí</span>
+                        <span data-id="82" class="flex items-center gap-1.5"><i data-id="83" data-lucide="check" class="w-4 h-4 text-brand-blue"></i> Podpora 7 dní v týdnu</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Scroll indicator -->
+            <div data-id="84" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 scroll-bounce">
+                <i data-id="85" data-lucide="chevron-down" class="w-6 h-6 text-brand-silver/60"></i>
+            </div>
+        </section>
+
+        <!-- STATS BAND -->
+        <section data-id="86" id="stats-band-s0" class="relative" style="background:#1A3A5C;">
+            <div data-id="87" class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4">
+                <div data-id="88" class="flex flex-col items-center py-8 md:py-10 border-r border-white/10 fade-up">
+                    <span data-id="89" class="counter-val text-3xl md:text-4xl font-black text-white" data-target="500" data-suffix="+">0</span>
+                    <span data-id="90" class="text-xs md:text-sm text-brand-silver mt-1 text-center px-2">Spokojených zákazníků</span>
+                </div>
+                <div data-id="91" class="flex flex-col items-center py-8 md:py-10 md:border-r border-white/10 fade-up">
+                    <span data-id="92" class="counter-val text-3xl md:text-4xl font-black text-white" data-target="1200" data-suffix="+">0</span>
+                    <span data-id="93" class="text-xs md:text-sm text-brand-silver mt-1 text-center px-2">Instalovaných zařízení</span>
+                </div>
+                <div data-id="94" class="flex flex-col items-center py-8 md:py-10 border-r border-white/10 border-t md:border-t-0 fade-up">
+                    <span data-id="95" class="counter-val text-3xl md:text-4xl font-black text-white" data-target="98" data-suffix="%">0</span>
+                    <span data-id="96" class="text-xs md:text-sm text-brand-silver mt-1 text-center px-2">Zákazníků by nás doporučilo</span>
+                </div>
+                <div data-id="97" class="flex flex-col items-center py-8 md:py-10 border-t md:border-t-0 fade-up">
+                    <span data-id="98" class="counter-val text-3xl md:text-4xl font-black text-white" data-target="0" data-suffix="" data-static="24/7">24/7</span>
+                    <span data-id="99" class="text-xs md:text-sm text-brand-silver mt-1 text-center px-2">Technická podpora</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUKTY -->
+        <section data-id="100" id="produkty" class="py-20 md:py-28 bg-white">
+            <div data-id="101" class="max-w-7xl mx-auto px-5 md:px-8">
+                <div data-id="102" class="text-center mb-14 fade-up">
+                    <span data-id="103" class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-blue">— Naše produkty —</span>
+                    <h2 data-id="104" class="text-2xl md:text-4xl font-bold text-brand-dark mt-3 mb-3" id="prod-heading-h2a">Kompletní portfolio bezpečnostních technologií</h2>
+                    <p data-id="105" class="text-brand-dark/60 max-w-xl mx-auto">Od kamer po chytrou domácnost — vše od jednoho partnera.</p>
+                </div>
+                <div data-id="106" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div data-id="107" class="product-card bg-white rounded-xl p-6 shadow-sm fade-up" id="prod-card-c1">
+                        <div data-id="108" class="w-14 h-14 rounded-xl bg-brand-blueFaded flex items-center justify-center mb-4">
+                            <i data-id="109" data-lucide="camera" class="w-7 h-7 text-brand-blue"></i>
+                        </div>
+                        <h3 data-id="110" class="text-lg font-bold text-brand-dark mb-2">Kamerové systémy</h3>
+                        <p data-id="111" class="text-sm text-brand-dark/60 leading-relaxed mb-3">IP kamery, NVR/DVR sety, venkovní i vnitřní kryté kamery s&nbsp;nočním viděním.</p>
+                        <div data-id="112" class="flex flex-wrap"><span data-id="113" class="tag-pill">IP kamery</span><span data-id="114" class="tag-pill">4K rozlišení</span><span data-id="115" class="tag-pill">Noční vidění</span></div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div data-id="116" class="product-card bg-white rounded-xl p-6 shadow-sm fade-up" id="prod-card-c2">
+                        <div data-id="117" class="w-14 h-14 rounded-xl bg-brand-blueFaded flex items-center justify-center mb-4">
+                            <i data-id="118" data-lucide="siren" class="w-7 h-7 text-brand-blue"></i>
+                        </div>
+                        <h3 data-id="119" class="text-lg font-bold text-brand-dark mb-2">Poplachové systémy</h3>
+                        <p data-id="120" class="text-sm text-brand-dark/60 leading-relaxed mb-3">Alarmy, pohybové senzory, kouřové detektory a&nbsp;napojení na PCO.</p>
+                        <div data-id="121" class="flex flex-wrap"><span data-id="122" class="tag-pill">Alarmy</span><span data-id="123" class="tag-pill">Senzory</span><span data-id="124" class="tag-pill">PCO</span></div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div data-id="125" class="product-card bg-white rounded-xl p-6 shadow-sm fade-up" id="prod-card-c3">
+                        <div data-id="126" class="w-14 h-14 rounded-xl bg-brand-blueFaded flex items-center justify-center mb-4">
+                            <i data-id="127" data-lucide="house" class="w-7 h-7 text-brand-blue"></i>
+                        </div>
+                        <h3 data-id="128" class="text-lg font-bold text-brand-dark mb-2">Chytrá domácnost</h3>
+                        <p data-id="129" class="text-sm text-brand-dark/60 leading-relaxed mb-3">Automatizace osvětlení, topení, zámků a&nbsp;celého domu přes mobil.</p>
+                        <div data-id="130" class="flex flex-wrap"><span data-id="131" class="tag-pill">Smart Home</span><span data-id="132" class="tag-pill">Automatizace</span><span data-id="133" class="tag-pill">App</span></div>
+                    </div>
+                    <!-- Card 4 -->
+                    <div data-id="134" class="product-card bg-white rounded-xl p-6 shadow-sm fade-up" id="prod-card-c4">
+                        <div data-id="135" class="w-14 h-14 rounded-xl bg-brand-blueFaded flex items-center justify-center mb-4">
+                            <i data-id="136" data-lucide="wifi" class="w-7 h-7 text-brand-blue"></i>
+                        </div>
+                        <h3 data-id="137" class="text-lg font-bold text-brand-dark mb-2">Síťová infrastruktura</h3>
+                        <p data-id="138" class="text-sm text-brand-dark/60 leading-relaxed mb-3">WiFi pokrytí, switche, přístupové body a&nbsp;strukturovaná kabeláž.</p>
+                        <div data-id="139" class="flex flex-wrap"><span data-id="140" class="tag-pill">WiFi</span><span data-id="141" class="tag-pill">Routery</span><span data-id="142" class="tag-pill">Kabeláž</span></div>
+                    </div>
+                    <!-- Card 5 -->
+                    <div data-id="143" class="product-card bg-white rounded-xl p-6 shadow-sm fade-up" id="prod-card-c5">
+                        <div data-id="144" class="w-14 h-14 rounded-xl bg-brand-blueFaded flex items-center justify-center mb-4">
+                            <i data-id="145" data-lucide="monitor" class="w-7 h-7 text-brand-blue"></i>
+                        </div>
+                        <h3 data-id="146" class="text-lg font-bold text-brand-dark mb-2">PC sestavy &amp; Hardware</h3>
+                        <p data-id="147" class="text-sm text-brand-dark/60 leading-relaxed mb-3">Sestavy na míru pro domácnost i&nbsp;kancelář, komponenty, příslušenství.</p>
+                        <div data-id="148" class="flex flex-wrap"><span data-id="149" class="tag-pill">PC na míru</span><span data-id="150" class="tag-pill">Komponenty</span><span data-id="151" class="tag-pill">Hardware</span></div>
+                    </div>
+                    <!-- Card 6 -->
+                    <div data-id="152" class="product-card bg-white rounded-xl p-6 shadow-sm fade-up" id="prod-card-c6">
+                        <div data-id="153" class="w-14 h-14 rounded-xl bg-brand-blueFaded flex items-center justify-center mb-4">
+                            <i data-id="154" data-lucide="zap" class="w-7 h-7 text-brand-blue"></i>
+                        </div>
+                        <h3 data-id="155" class="text-lg font-bold text-brand-dark mb-2">Komplexní řešení</h3>
+                        <p data-id="156" class="text-sm text-brand-dark/60 leading-relaxed mb-3">Navrhujeme a instalujeme kompletní bezpečnostní systémy na klíč.</p>
+                        <div data-id="157" class="flex flex-wrap"><span data-id="158" class="tag-pill">Na klíč</span><span data-id="159" class="tag-pill">Konzultace</span><span data-id="160" class="tag-pill">Instalace</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROČ FORTYRON -->
+        <section data-id="161" id="sluzby" class="py-20 md:py-28 relative overflow-hidden" style="background: linear-gradient(160deg, #0D1B2A 0%, #132d4a 100%);">
+            <div data-id="162" class="max-w-7xl mx-auto px-5 md:px-8 relative z-10">
+                <div data-id="163" class="text-center mb-14 fade-up">
+                    <span data-id="164" class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-silver">— Proč si vybrat nás —</span>
+                    <h2 data-id="165" class="text-2xl md:text-4xl font-bold text-white mt-3" id="why-heading-w1">Váš spolehlivý partner pro bezpečnost</h2>
+                </div>
+                <div data-id="166" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                    <!-- Why 1 -->
+                    <div data-id="167" class="glass-card rounded-2xl p-7 fade-up" id="why-card-g1">
+                        <div data-id="168" class="flex items-start gap-4">
+                            <div data-id="169" class="mt-0.5"><i data-id="170" data-lucide="shield-check" class="w-7 h-7 text-brand-blue"></i></div>
+                            <div data-id="171">
+                                <h3 data-id="172" class="text-lg font-bold text-white mb-2">Technická preciznost</h3>
+                                <p data-id="173" class="text-sm text-brand-silver leading-relaxed">Každá instalace je provedena podle nejvyšších standardů. Žádné kompromisy, žádné zkratky.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Why 2 -->
+                    <div data-id="174" class="glass-card rounded-2xl p-7 fade-up" id="why-card-g2">
+                        <div data-id="175" class="flex items-start gap-4">
+                            <div data-id="176" class="mt-0.5"><i data-id="177" data-lucide="handshake" class="w-7 h-7 text-brand-blue"></i></div>
+                            <div data-id="178">
+                                <h3 data-id="179" class="text-lg font-bold text-white mb-2">Férové jednání</h3>
+                                <p data-id="180" class="text-sm text-brand-silver leading-relaxed">Transparentní ceník, žádné skryté poplatky. Vždy víte přesně, co platíte a&nbsp;proč.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Why 3 -->
+                    <div data-id="181" class="glass-card rounded-2xl p-7 fade-up" id="why-card-g3">
+                        <div data-id="182" class="flex items-start gap-4">
+                            <div data-id="183" class="mt-0.5"><i data-id="184" data-lucide="timer" class="w-7 h-7 text-brand-blue"></i></div>
+                            <div data-id="185">
+                                <h3 data-id="186" class="text-lg font-bold text-white mb-2">Rychlá realizace</h3>
+                                <p data-id="187" class="text-sm text-brand-silver leading-relaxed">Od prvního kontaktu po fungující systém zpravidla do 7 pracovních dní.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Why 4 -->
+                    <div data-id="188" class="glass-card rounded-2xl p-7 fade-up" id="why-card-g4">
+                        <div data-id="189" class="flex items-start gap-4">
+                            <div data-id="190" class="mt-0.5"><i data-id="191" data-lucide="wrench" class="w-7 h-7 text-brand-blue"></i></div>
+                            <div data-id="192">
+                                <h3 data-id="193" class="text-lg font-bold text-white mb-2">Servis a podpora</h3>
+                                <p data-id="194" class="text-sm text-brand-silver leading-relaxed">Nejsme tady jen pro prodej. Staráme se o&nbsp;systémy dlouhodobě, vzdáleně i na místě.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Quote block -->
+                <div data-id="195" class="fade-up max-w-3xl mx-auto border-l-4 border-brand-blue pl-6 py-3">
+                    <p data-id="196" class="text-brand-silver italic leading-relaxed text-sm md:text-base">"Bezpečí není luxus — je to základní potřeba každého domova i&nbsp;firmy. Fortyron je tu od toho, aby bylo dostupné pro každého."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- JAK TO FUNGUJE -->
+        <section data-id="197" id="jak-to-funguje" class="py-20 md:py-28 bg-brand-light">
+            <div data-id="198" class="max-w-6xl mx-auto px-5 md:px-8">
+                <div data-id="199" class="text-center mb-16 fade-up">
+                    <span data-id="200" class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-blue">— Jednoduchý proces —</span>
+                    <h2 data-id="201" class="text-2xl md:text-4xl font-bold text-brand-dark mt-3" id="proc-heading-p1">Od kontaktu po klid v duši — ve 4 krocích</h2>
+                </div>
+                <div data-id="202" class="grid grid-cols-1 md:grid-cols-4 gap-0 md:gap-0 relative">
+                    <!-- Connector line (desktop only) -->
+                    <div data-id="203" class="hidden md:block absolute top-[36px] left-[calc(12.5%+28px)] right-[calc(12.5%+28px)] h-0 process-line"></div>
+                    <!-- Step 1 -->
+                    <div data-id="204" class="flex flex-col items-center text-center px-4 mb-10 md:mb-0 fade-up relative z-10" id="step-s1">
+                        <div data-id="205" class="w-14 h-14 rounded-full bg-brand-blue flex items-center justify-center text-white font-bold text-xl mb-4 shadow-lg shadow-brand-blue/20">1</div>
+                        <h3 data-id="206" class="text-base font-bold text-brand-dark mb-2">Kontakt &amp; Konzultace</h3>
+                        <p data-id="207" class="text-sm text-brand-dark/60 leading-relaxed">Zavolejte nebo napište. Prodiskutujeme vaše potřeby a&nbsp;navrhneme optimální řešení.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div data-id="208" class="flex flex-col items-center text-center px-4 mb-10 md:mb-0 fade-up relative z-10" id="step-s2">
+                        <div data-id="209" class="w-14 h-14 rounded-full bg-brand-blue flex items-center justify-center text-white font-bold text-xl mb-4 shadow-lg shadow-brand-blue/20">2</div>
+                        <h3 data-id="210" class="text-base font-bold text-brand-dark mb-2">Návrh &amp; Cenová nabídka</h3>
+                        <p data-id="211" class="text-sm text-brand-dark/60 leading-relaxed">Do 48 hodin obdržíte detailní nabídku přesně pro váš případ, bez závazku.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div data-id="212" class="flex flex-col items-center text-center px-4 mb-10 md:mb-0 fade-up relative z-10" id="step-s3">
+                        <div data-id="213" class="w-14 h-14 rounded-full bg-brand-blue flex items-center justify-center text-white font-bold text-xl mb-4 shadow-lg shadow-brand-blue/20">3</div>
+                        <h3 data-id="214" class="text-base font-bold text-brand-dark mb-2">Instalace &amp; Konfigurace</h3>
+                        <p data-id="215" class="text-sm text-brand-dark/60 leading-relaxed">Náš technik dorazí ve sjednaný čas. Instalace čistě, rychle, profesionálně.</p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div data-id="216" class="flex flex-col items-center text-center px-4 fade-up relative z-10" id="step-s4">
+                        <div data-id="217" class="w-14 h-14 rounded-full bg-brand-blue flex items-center justify-center text-white font-bold text-xl mb-4 shadow-lg shadow-brand-blue/20">4</div>
+                        <h3 data-id="218" class="text-base font-bold text-brand-dark mb-2">Servis &amp; Podpora</h3>
+                        <p data-id="219" class="text-sm text-brand-dark/60 leading-relaxed">Systém monitorujeme, servisujeme a&nbsp;jsme vám k&nbsp;dispozici kdykoliv potřebujete.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REFERENCE / TESTIMONIALS -->
+        <section data-id="220" id="reference" class="py-20 md:py-28 bg-white">
+            <div data-id="221" class="max-w-7xl mx-auto px-5 md:px-8">
+                <div data-id="222" class="text-center mb-14 fade-up">
+                    <span data-id="223" class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-blue">— Co říkají zákazníci —</span>
+                    <h2 data-id="224" class="text-2xl md:text-4xl font-bold text-brand-dark mt-3" id="ref-heading-r1">Přes 500 spokojených zákazníků</h2>
+                </div>
+                <div data-id="225" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
+                    <!-- Testimonial 1 -->
+                    <div data-id="226" class="bg-white rounded-xl p-7 shadow-md fade-up" id="test-card-t1">
+                        <div data-id="227" class="quote-icon mb-2">"</div>
+                        <div data-id="228" class="flex gap-0.5 mb-3">
+                            <i data-id="229" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                            <i data-id="230" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                            <i data-id="231" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                            <i data-id="232" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                            <i data-id="233" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                        </div>
+                        <p data-id="234" class="text-sm text-brand-dark/70 leading-relaxed mb-5">Profesionální přístup od začátku do konce. Kamerový systém funguje skvěle, instalace proběhla čistě a&nbsp;rychle. Jednoznačně doporučuji!</p>
+                        <div data-id="235" class="flex items-center gap-3">
+                            <div data-id="236" class="w-10 h-10 rounded-full bg-brand-blue/10 flex items-center justify-center text-sm font-bold text-brand-blue">MK</div>
+                            <div data-id="237">
+                                <p data-id="238" class="text-sm font-semibold text-brand-dark">Martin K.</p>
+                                <p data-id="239" class="text-xs text-brand-dark/50">Praha 6</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 2 -->
+                    <div data-id="240" class="bg-white rounded-xl p-7 shadow-md fade-up" id="test-card-t2">
+                        <div data-id="241" class="quote-icon mb-2">"</div>
+                        <div data-id="242" class="flex gap-0.5 mb-3">
+                            <i data-id="243" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                            <i data-id="244" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                            <i data-id="245" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                            <i data-id="246" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                            <i data-id="247" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                        </div>
+                        <p data-id="248" class="text-sm text-brand-dark/70 leading-relaxed mb-5">Konečně někdo, kdo to umí vysvětlit lidsky. Neházel na nás technické termíny, ale ukázal konkrétní řešení pro náš byt. Výsledek předčil očekávání.</p>
+                        <div data-id="249" class="flex items-center gap-3">
+                            <div data-id="250" class="w-10 h-10 rounded-full bg-brand-blue/10 flex items-center justify-center text-sm font-bold text-brand-blue">LM</div>
+                            <div data-id="251">
+                                <p data-id="252" class="text-sm font-semibold text-brand-dark">Lucie M.</p>
+                                <p data-id="253" class="text-xs text-brand-dark/50">Praha 4</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 3 -->
+                    <div data-id="254" class="bg-white rounded-xl p-7 shadow-md fade-up" id="test-card-t3">
+                        <div data-id="255" class="quote-icon mb-2">"</div>
+                        <div data-id="256" class="flex gap-0.5 mb-3">
+                            <i data-id="257" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                            <i data-id="258" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                            <i data-id="259" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                            <i data-id="260" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                            <i data-id="261" data-lucide="star" class="w-4 h-4 star-gold fill-current"></i>
+                        </div>
+                        <p data-id="262" class="text-sm text-brand-dark/70 leading-relaxed mb-5">Zabezpečili jsme celou provozovnu. Rychlá reakce, férová cena, systém je spolehlivý. Přesně to, co jsem hledal pro firmu.</p>
+                        <div data-id="263" class="flex items-center gap-3">
+                            <div data-id="264" class="w-10 h-10 rounded-full bg-brand-blue/10 flex items-center justify-center text-sm font-bold text-brand-blue">RT</div>
+                            <div data-id="265">
+                                <p data-id="266" class="text-sm font-semibold text-brand-dark">Radek T.</p>
+                                <p data-id="267" class="text-xs text-brand-dark/50">Středočeský kraj</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Trust badges strip -->
+                <div data-id="268" class="rounded-xl py-5 px-6 flex flex-wrap justify-center gap-x-6 gap-y-3" style="background:#0D1B2A;">
+                    <span data-id="269" class="trust-strip-item"><i data-id="270" data-lucide="lock" class="w-4 h-4 text-brand-blue"></i> SSL Zabezpečení</span>
+                    <span data-id="271" class="trust-strip-item"><i data-id="272" data-lucide="package" class="w-4 h-4 text-brand-blue"></i> Záruka 24 měsíců</span>
+                    <span data-id="273" class="trust-strip-item"><i data-id="274" data-lucide="truck" class="w-4 h-4 text-brand-blue"></i> Doprava zdarma nad 2 000 Kč</span>
+                    <span data-id="275" class="trust-strip-item"><i data-id="276" data-lucide="refresh-cw" class="w-4 h-4 text-brand-blue"></i> Snadná reklamace</span>
+                    <span data-id="277" class="trust-strip-item"><i data-id="278" data-lucide="badge-check" class="w-4 h-4 text-brand-blue"></i> Ověřený e-shop</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA BANNER -->
+        <section data-id="279" id="cta-banner-b1" class="relative py-20 md:py-24 overflow-hidden" style="background:#2E86DE;">
+            <div data-id="280" class="absolute inset-0 cta-pattern"></div>
+            <div data-id="281" class="relative z-10 max-w-4xl mx-auto px-5 md:px-8 text-center">
+                <h2 data-id="282" class="text-2xl md:text-4xl font-bold text-white mb-4 fade-up" id="cta-heading-c1">Připraveni zabezpečit váš domov nebo firmu?</h2>
+                <p data-id="283" class="text-white/80 text-base md:text-lg mb-8 fade-up">Nezávazná konzultace zdarma. Ozveme se do 24 hodin.</p>
+                <div data-id="284" class="flex flex-col sm:flex-row justify-center gap-4 fade-up">
+                    <a data-id="285" href="#kontakt" class="inline-flex items-center justify-center bg-white text-brand-mid font-bold text-base rounded-lg px-8 py-4 btn-hover hover:bg-brand-light transition" id="cta-btn-main-m1">Získat bezplatnou nabídku</a>
+                    <a data-id="286" href="tel:+420000000000" class="inline-flex items-center justify-center gap-2 border-2 border-white text-white font-bold text-base rounded-lg px-8 py-4 btn-hover hover:bg-white/15 transition" id="cta-btn-phone-p1">
+                        <i data-id="287" data-lucide="phone" class="w-5 h-5"></i> +420 XXX XXX XXX
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- KONTAKT -->
+        <section data-id="288" id="kontakt" class="py-20 md:py-28" style="background: linear-gradient(160deg, #0D1B2A 0%, #0f2035 100%);">
+            <div data-id="289" class="max-w-7xl mx-auto px-5 md:px-8">
+                <div data-id="290" class="text-center mb-14 fade-up">
+                    <h2 data-id="291" class="text-2xl md:text-4xl font-bold text-white" id="contact-heading-k1">Kontaktujte nás</h2>
+                    <p data-id="292" class="text-brand-silver mt-3 max-w-xl mx-auto text-sm md:text-base">Jsme k dispozici po–pá 8:00–17:00, naléhavé případy řešíme i&nbsp;mimo pracovní dobu.</p>
+                </div>
+                <div data-id="293" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Left - contact info -->
+                    <div data-id="294" class="flex flex-col gap-4 fade-up">
+                        <div data-id="295" class="glass-card rounded-xl p-5 flex items-center gap-4">
+                            <i data-id="296" data-lucide="mail" class="w-5 h-5 text-brand-blue"></i>
+                            <div data-id="297">
+                                <p data-id="298" class="text-xs text-brand-silver/60 uppercase tracking-wide">E-mail</p>
+                                <p data-id="299" class="text-white font-medium text-sm">info@fortyron.cz</p>
+                            </div>
+                        </div>
+                        <div data-id="300" class="glass-card rounded-xl p-5 flex items-center gap-4">
+                            <i data-id="301" data-lucide="phone" class="w-5 h-5 text-brand-blue"></i>
+                            <div data-id="302">
+                                <p data-id="303" class="text-xs text-brand-silver/60 uppercase tracking-wide">Telefon</p>
+                                <p data-id="304" class="text-white font-medium text-sm">+420 XXX XXX XXX</p>
+                            </div>
+                        </div>
+                        <div data-id="305" class="glass-card rounded-xl p-5 flex items-center gap-4">
+                            <i data-id="306" data-lucide="map-pin" class="w-5 h-5 text-brand-blue"></i>
+                            <div data-id="307">
+                                <p data-id="308" class="text-xs text-brand-silver/60 uppercase tracking-wide">Lokalita</p>
+                                <p data-id="309" class="text-white font-medium text-sm">Praha a Středočeský kraj</p>
+                            </div>
+                        </div>
+                        <div data-id="310" class="glass-card rounded-xl p-5 flex items-center gap-4">
+                            <i data-id="311" data-lucide="globe" class="w-5 h-5 text-brand-blue"></i>
+                            <div data-id="312">
+                                <p data-id="313" class="text-xs text-brand-silver/60 uppercase tracking-wide">Web</p>
+                                <p data-id="314" class="text-white font-medium text-sm">fortyron.cz</p>
+                            </div>
+                        </div>
+                        <div data-id="315" class="glass-card rounded-xl p-5 flex items-center gap-4">
+                            <i data-id="316" data-lucide="clock" class="w-5 h-5 text-brand-blue"></i>
+                            <div data-id="317">
+                                <p data-id="318" class="text-xs text-brand-silver/60 uppercase tracking-wide">Otevírací doba</p>
+                                <p data-id="319" class="text-white font-medium text-sm">Po–Pá 8:00–17:00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right - contact form -->
+                    <div data-id="320" class="glass-card rounded-2xl p-7 md:p-9 fade-up" id="contact-form-card-f1">
+                        <form data-id="321" id="contact-form" class="space-y-4" novalidate>
+                            <div data-id="322">
+                                <label data-id="323" class="block text-xs font-medium text-brand-silver mb-1.5 uppercase tracking-wide">Jméno a příjmení</label>
+                                <input data-id="324" type="text" name="name" class="form-input w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30" placeholder="Jan Novák" required />
+                            </div>
+                            <div data-id="325">
+                                <label data-id="326" class="block text-xs font-medium text-brand-silver mb-1.5 uppercase tracking-wide">E-mail nebo telefon</label>
+                                <input data-id="327" type="text" name="contact" class="form-input w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30" placeholder="email@example.cz nebo +420…" required />
+                            </div>
+                            <div data-id="328">
+                                <label data-id="329" class="block text-xs font-medium text-brand-silver mb-1.5 uppercase tracking-wide">Zájem o</label>
+                                <select data-id="330" name="interest" class="form-input w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-sm text-white appearance-none" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23C0C0C0' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 6.646a.5.5 0 0 1 .708 0L8 9.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 12px center;">
+                                    <option data-id="331" value="" class="text-brand-dark">Vyberte…</option>
+                                    <option data-id="332" value="kamery" class="text-brand-dark">Kamerový systém</option>
+                                    <option data-id="333" value="alarm" class="text-brand-dark">Alarm</option>
+                                    <option data-id="334" value="smart" class="text-brand-dark">Chytrá domácnost</option>
+                                    <option data-id="335" value="sit" class="text-brand-dark">Síť</option>
+                                    <option data-id="336" value="pc" class="text-brand-dark">PC sestava</option>
+                                    <option data-id="337" value="jine" class="text-brand-dark">Jiné</option>
+                                </select>
+                            </div>
+                            <div data-id="338">
+                                <label data-id="339" class="block text-xs font-medium text-brand-silver mb-1.5 uppercase tracking-wide">Zpráva <span data-id="340" class="font-normal text-white/30">(nepovinné)</span></label>
+                                <textarea data-id="341" name="message" rows="3" class="form-input w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 resize-none" placeholder="Popište svůj požadavek…"></textarea>
+                            </div>
+                            <button data-id="342" type="submit" id="submit-btn" class="w-full bg-brand-blue text-white font-semibold text-sm rounded-lg py-3.5 btn-hover hover:bg-brand-blueHover transition flex items-center justify-center gap-2">
+                                <span data-id="343" id="submit-text">Odeslat poptávku</span>
+                                <i data-id="344" data-lucide="arrow-right" class="w-4 h-4" id="submit-arrow"></i>
+                            </button>
+                            <p data-id="345" class="text-xs text-brand-silver/50 text-center mt-2">Odpovídáme do 24 hodin. Žádný spam, žádné závazky.</p>
+                        </form>
+                        <!-- Success state -->
+                        <div data-id="346" id="form-success" class="hidden text-center py-12">
+                            <div data-id="347" class="w-16 h-16 rounded-full bg-green-500/15 flex items-center justify-center mx-auto mb-4">
+                                <i data-id="348" data-lucide="check-circle-2" class="w-8 h-8 text-green-400"></i>
+                            </div>
+                            <h3 data-id="349" class="text-xl font-bold text-white mb-2">Děkujeme!</h3>
+                            <p data-id="350" class="text-brand-silver text-sm">Vaši poptávku jsme přijali. Ozveme se do 24 hodin.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer data-id="351" class="border-t border-brand-silver/10" style="background:#0D1B2A;">
+        <div data-id="352" class="max-w-7xl mx-auto px-5 md:px-8 py-12">
+            <div data-id="353" class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                <!-- Left: logo -->
+                <div data-id="354">
+                    <span data-id="355" class="text-xl font-black text-white">FORTYRON</span>
+                    <p data-id="356" class="text-sm text-brand-silver/60 mt-1">Bezpečí začíná u Fortyronu.</p>
+                </div>
+                <!-- Center: links -->
+                <div data-id="357" class="flex flex-wrap justify-start md:justify-center gap-x-5 gap-y-2">
+                    <a data-id="358" href="#produkty" class="text-sm text-brand-silver hover:text-white transition-colors">Produkty</a>
+                    <a data-id="359" href="#sluzby" class="text-sm text-brand-silver hover:text-white transition-colors">Služby</a>
+                    <a data-id="360" href="#jak-to-funguje" class="text-sm text-brand-silver hover:text-white transition-colors">Jak to funguje</a>
+                    <a data-id="361" href="#reference" class="text-sm text-brand-silver hover:text-white transition-colors">Reference</a>
+                    <a data-id="362" href="#kontakt" class="text-sm text-brand-silver hover:text-white transition-colors">Kontakt</a>
+                </div>
+                <!-- Right: social -->
+                <div data-id="363" class="flex gap-3 md:justify-end">
+                    <a data-id="364" href="#" class="w-10 h-10 rounded-full border border-brand-silver/20 flex items-center justify-center hover:border-brand-blue hover:text-brand-blue transition text-brand-silver" aria-label="Facebook" id="social-fb-f1">
+                        <i data-id="365" data-lucide="facebook" class="w-4 h-4"></i>
+                    </a>
+                    <a data-id="366" href="#" class="w-10 h-10 rounded-full border border-brand-silver/20 flex items-center justify-center hover:border-brand-blue hover:text-brand-blue transition text-brand-silver" aria-label="Instagram" id="social-ig-i1">
+                        <i data-id="367" data-lucide="instagram" class="w-4 h-4"></i>
+                    </a>
+                    <a data-id="368" href="#" class="w-10 h-10 rounded-full border border-brand-silver/20 flex items-center justify-center hover:border-brand-blue hover:text-brand-blue transition text-brand-silver" aria-label="YouTube" id="social-yt-y1">
+                        <i data-id="369" data-lucide="youtube" class="w-4 h-4"></i>
+                    </a>
+                    <a data-id="370" href="#" class="w-10 h-10 rounded-full border border-brand-silver/20 flex items-center justify-center hover:border-brand-blue hover:text-brand-blue transition text-brand-silver" aria-label="LinkedIn" id="social-li-l1">
+                        <i data-id="371" data-lucide="linkedin" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- Bottom bar -->
+            <div data-id="372" class="mt-10 pt-6 border-t border-brand-silver/10 flex flex-col md:flex-row justify-between items-center gap-3">
+                <p data-id="373" class="text-xs text-brand-silver/40 text-center md:text-left">© 2026 Fortyron.cz — Všechna práva vyhrazena</p>
+                <div data-id="374" class="flex flex-wrap justify-center gap-x-4 gap-y-1">
+                    <a data-id="375" href="#" class="text-xs text-brand-silver/40 hover:text-brand-silver transition-colors">Obchodní podmínky</a>
+                    <a data-id="376" href="#" class="text-xs text-brand-silver/40 hover:text-brand-silver transition-colors">Ochrana osobních údajů</a>
+                    <a data-id="377" href="#" class="text-xs text-brand-silver/40 hover:text-brand-silver transition-colors">Cookies</a>
+                </div>
+            </div>
+            <p data-id="378" class="text-xs text-brand-silver/30 text-center mt-6">Made by Copilot</p>
+        </div>
+    </footer>
+
+    <script>
+    // Guard Lucide init
+    if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
+        lucide.createIcons();
+    }
+
+    // ---- NAVBAR scroll ----
+    (function() {
+        var navbar = document.getElementById('navbar-main');
+        if (!navbar) return;
+        var lastScroll = 0;
+        window.addEventListener('scroll', function() {
+            var y = window.scrollY || window.pageYOffset;
+            if (y > 40) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            lastScroll = y;
+        }, { passive: true });
+    })();
+
+    // ---- MOBILE MENU ----
+    (function() {
+        var btn = document.getElementById('mobile-menu-btn');
+        var closeBtn = document.getElementById('mobile-menu-close');
+        var menu = document.getElementById('mobile-menu');
+        if (!btn || !closeBtn || !menu) return;
+
+        btn.addEventListener('click', function() {
+            menu.classList.remove('closed');
+            menu.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+        closeBtn.addEventListener('click', function() {
+            menu.classList.remove('open');
+            menu.classList.add('closed');
+            document.body.style.overflow = '';
+        });
+        // Close on nav link click
+        var mobileLinks = menu.querySelectorAll('.mobile-nav-link');
+        mobileLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                menu.classList.remove('open');
+                menu.classList.add('closed');
+                document.body.style.overflow = '';
+            });
+        });
+    })();
+
+    // ---- SCROLL FADE-UP (IntersectionObserver) ----
+    (function() {
+        var els = document.querySelectorAll('.fade-up');
+        if (!('IntersectionObserver' in window)) {
+            els.forEach(function(el) { el.classList.add('visible'); });
+            return;
+        }
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        els.forEach(function(el) { observer.observe(el); });
+    })();
+
+    // ---- COUNTER ANIMATION ----
+    (function() {
+        var counters = document.querySelectorAll('.counter-val');
+        if (!('IntersectionObserver' in window)) return;
+        var animated = new Set();
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting && !animated.has(entry.target)) {
+                    animated.add(entry.target);
+                    var el = entry.target;
+                    var staticVal = el.getAttribute('data-static');
+                    if (staticVal) return; // 24/7 doesn't animate
+                    var target = parseInt(el.getAttribute('data-target'), 10);
+                    var suffix = el.getAttribute('data-suffix') || '';
+                    var duration = 1800;
+                    var startTime = null;
+                    function step(timestamp) {
+                        if (!startTime) startTime = timestamp;
+                        var progress = Math.min((timestamp - startTime) / duration, 1);
+                        // easeOutQuart
+                        var ease = 1 - Math.pow(1 - progress, 4);
+                        var current = Math.round(ease * target);
+                        el.textContent = current.toLocaleString('cs-CZ') + suffix;
+                        if (progress < 1) {
+                            requestAnimationFrame(step);
+                        }
+                    }
+                    requestAnimationFrame(step);
+                }
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(function(c) { observer.observe(c); });
+    })();
+
+    // ---- CONTACT FORM SUBMIT ----
+    (function() {
+        var form = document.getElementById('contact-form');
+        var submitBtn = document.getElementById('submit-btn');
+        var submitText = document.getElementById('submit-text');
+        var submitArrow = document.getElementById('submit-arrow');
+        var successDiv = document.getElementById('form-success');
+        if (!form || !submitBtn) return;
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Show spinner
+            submitText.textContent = 'Odesílání…';
+            if (submitArrow) submitArrow.style.display = 'none';
+            var spinner = document.createElement('span');
+            spinner.className = 'spinner';
+            spinner.id = 'form-spinner';
+            submitBtn.appendChild(spinner);
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.7';
+
+            // Simulate sending
+            setTimeout(function() {
+                form.style.display = 'none';
+                if (successDiv) {
+                    successDiv.classList.remove('hidden');
+                    // Re-init lucide icons for success state
+                    if (typeof lucide !== "undefined" && typeof lucide.createIcons === "function") {
+                        lucide.createIcons();
+                    }
+                }
+            }, 1600);
+        });
+    })();
+    </script>
+</body>
+</html>
